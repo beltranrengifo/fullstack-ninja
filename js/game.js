@@ -61,19 +61,32 @@ function startGame(board, ninja) {
       });
 };
 
-//key events ninja
+/*=======================
+KEY EVENTS MOVE NINJA
+=======================*/
 $(document).keydown(function (e) {
+      console.log(e.keyCode);
       switch (e.keyCode) {
+            //izq
             case 37:
                   ninja.move(-1);
-                  
                   break;
+                  //dere
             case 39:
                   ninja.move(1);
-                 
                   break;
+            case 38:
+                  ninja.jump();
+                  break;
+            case 65:
+                  ninja.attack();
+                  break;
+            default:
+                  return; // exit this handler for other keys
       }
 });
+
+//ON KEYUP SE RESETEA LA SPEED
 $(document).keyup(function (e) {
       ninja.stop();
 });
