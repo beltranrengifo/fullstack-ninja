@@ -39,6 +39,7 @@ function assignAssets(level) {
       //nuevos objetos de board y monster
       monster = new Monster(monsterImg, monsterName);
       board = new Board(levelBg);
+      
       //fx de start
       startGame(board, ninja);
 }
@@ -65,7 +66,6 @@ function startGame(board, ninja) {
 KEY EVENTS MOVE NINJA
 =======================*/
 $(document).keydown(function (e) {
-      console.log(e.keyCode);
       switch (e.keyCode) {
             //izq
             case 37:
@@ -79,7 +79,7 @@ $(document).keydown(function (e) {
                   ninja.jump();
                   break;
             case 65:
-                  ninja.attack();
+                  ninja.attack(monster);
                   break;
             default:
                   return; // exit this handler for other keys

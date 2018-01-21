@@ -1,12 +1,12 @@
-function Ninja() {
+function Ninja(monster) {
       this.name = 'Fullstack Ninja';
       this.img = new Image();
       this.img.src = 'img/sprites/ninja1.png';
-      this.scale = 295 / 340;
+      this.scale = 295 / 479;
       //para los sprites
       this.shift = 0;
       this.frameWidth = 295;
-      this.frameHeight = 340;
+      this.frameHeight = 479;
       this.totalFrames = 1;
       this.currentFrame = 0;
       this.direction = 1;
@@ -33,7 +33,7 @@ Ninja.prototype.render = function (board, delta) {
       } else {
             this.y -= this.speedY / 1000 * delta;
       }
-      board.ctx.drawImage(this.img, this.shift, 0, this.frameWidth, this.frameHeight, this.x, this.y, 295, 340);
+      board.ctx.drawImage(this.img, this.shift, 0, this.frameWidth, this.frameHeight, this.x, this.y, 295, 479);
       this.shift += (this.frameWidth);
       if (this.currentFrame == this.totalFrames) {
             this.shift = 0;
@@ -83,7 +83,7 @@ Ninja.prototype.stop = function () {
       this.speedX = 0;
       if (this.y < 285) {
             // velocidad negativa para bajar al ninja al suelo
-            this.speedY = -550;
+            this.speedY = -650;
       } else {
             this.speedY = 0;
       }
@@ -93,6 +93,17 @@ Ninja.prototype.stop = function () {
       this.currentFrame = 0;
 }
 
-Ninja.prototype.attack = function() {
-      console.log('al ataqueeer');
+Ninja.prototype.attack = function(monster) {
+      this.totalFrames = 24;
+      if (this.direction === 1) {
+            this.img.src = 'img/sprites/ninja-attack-1.png';
+      } else {
+            this.img.src = 'img/sprites/ninja-attack-1-rev.png';
+      }
+      console.log(monster);
+      monster.health -= 10;
+      // if ( this.detectContact(this.monster) ) {
+
+      // }
+      console.log('desde metodo attack ninja: '+monster.health);
 }
