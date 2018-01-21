@@ -2,7 +2,7 @@
 GLOBALS
 =======================*/
 var ninja = new Ninja();
-var monsterImg;
+var monsterSrc;
 var levelBg;
 var monsterName;
 var monster;
@@ -21,33 +21,32 @@ function assignAssets(level) {
       en la pantalla de seleccionar nivel */
       switch (level) {
             case 'level1':
-                  monsterImg = 'img/doom.png';
+                  monsterSrc = 'img/monster-doom.png';
                   monsterName = 'Da Doom';
                   levelBg = 'img/level1-bg.jpg';
                   break;
             case 'level2':
-                  monsterImg = 'img/wakkend.png';
+                  monsterSrc = 'img/monster-wakkend.png';
                   monsterName = 'Da Wakkend';
                   levelBg = 'img/level2-bg.jpg';
                   break;
             case 'level3':
-                  monsterImg = 'img/frunth.png';
+                  monsterSrc = 'img/monster-frunth.png';
                   monsterName = 'Da Frunth';
                   levelBg = 'img/level3-bg.jpg';
                   break;
       }
       //nuevos objetos de board y monster
-      monster = new Monster(monsterImg, monsterName);
       board = new Board(levelBg);
-      
+      monster = new Monster(monsterSrc, monsterName, board);
       //fx de start
-      startGame(board, ninja);
+      startGame(board, ninja, monster);
 }
 
 /*=======================
 START GAME!
 =======================*/
-function startGame(board, ninja) {
+function startGame(board, ninja, monster) {
       //se calcula el delta
       then = now;
       now = Date.now();
@@ -55,10 +54,10 @@ function startGame(board, ninja) {
       /* limpiamos el canvas y repintamos 
       (OJO que el render del ninja se re-lanza desde el render del board) */
       board.clean(board.ctx);
-      board.render(board, ninja, delta);
+      board.render(board, ninja, delta, monster);
       //lanzamos la secuencia del navegador
       window.requestAnimationFrame(function () {
-            startGame(board, ninja);
+            startGame(board, ninja, monster);
       });
 };
 
@@ -88,5 +87,14 @@ $(document).keydown(function (e) {
 
 //ON KEYUP SE RESETEA LA SPEED
 $(document).keyup(function (e) {
-      ninja.stop();
+      switch (e.keyCode) {
+            case 37:
+            case 38:
+            case 39:
+            case 65:
+                  ninja.stop();
+                  break;
+            default:
+                  return; // exit this handler for other keys
+      }
 });

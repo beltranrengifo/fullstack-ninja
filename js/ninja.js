@@ -1,13 +1,13 @@
 function Ninja(monster) {
       this.name = 'Fullstack Ninja';
       this.img = new Image();
-      this.img.src = 'img/sprites/ninja1.png';
+      this.img.src = 'img/sprites/ninja-idle.png';
       this.scale = 295 / 479;
       //para los sprites
       this.shift = 0;
       this.frameWidth = 295;
       this.frameHeight = 479;
-      this.totalFrames = 1;
+      this.totalFrames = 24;
       this.currentFrame = 0;
       this.direction = 1;
       //postion
@@ -87,10 +87,15 @@ Ninja.prototype.stop = function () {
       } else {
             this.speedY = 0;
       }
-      this.totalFrames = 1;
-      this.img.src = 'img/sprites/ninja1.png';
+      this.totalFrames = 24;
+      if (this.direction === 1) {
+            this.img.src = 'img/sprites/ninja-idle.png';
+      } else {
+            this.img.src = 'img/sprites/ninja-idle-rev.png';
+      }
+      
       //resetea el current frame al 0, para los sprites de 1 sola img
-      this.currentFrame = 0;
+      // this.currentFrame = 0;
 }
 
 Ninja.prototype.attack = function(monster) {
@@ -100,10 +105,13 @@ Ninja.prototype.attack = function(monster) {
       } else {
             this.img.src = 'img/sprites/ninja-attack-1-rev.png';
       }
-      console.log(monster);
-      monster.health -= 10;
-      // if ( this.detectContact(this.monster) ) {
+      if ( this.detectContact(monster) ) {
+            monster.health -= 10;
+      }
+}
 
-      // }
-      console.log('desde metodo attack ninja: '+monster.health);
+Ninja.prototype.detectContact = function (monster) {
+      if ( this.x + this.frameWidth <= monster.x) {
+            console.log('tocado');
+      }
 }

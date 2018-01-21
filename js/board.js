@@ -1,7 +1,7 @@
 function Board(img) {
       this.img = new Image();
       this.img.src = img;
-      // this.img.src = 'img/transparent-test.png';
+      // this.img.src = 'img/transparent-canvas.png';
       this.canvas = document.getElementById('canvas-game');
       this.canvas.height = 720;
       this.canvas.width = 1600;
@@ -13,9 +13,11 @@ function Board(img) {
       this.ctx.imageSmoothingEnabled = true;
 }
 
-Board.prototype.render = function (board, ninja, delta) {
+Board.prototype.render = function (board, ninja, delta, monster) {
       this.ctx.drawImage(this.img, 0, 0, 1600, 720);
+      monster.render(board,delta);
       ninja.render(board,delta);
+      
 }
 
 Board.prototype.clean = function () {
