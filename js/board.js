@@ -13,9 +13,9 @@ function Board(img) {
       this.ctx.imageSmoothingEnabled = true;
 }
 
-Board.prototype.render = function () {
+Board.prototype.render = function (board, ninja, delta) {
       this.ctx.drawImage(this.img, 0, 0, 1600, 720);
-      ninja.render(board);
+      ninja.render(board,delta);
 }
 
 Board.prototype.clean = function () {
