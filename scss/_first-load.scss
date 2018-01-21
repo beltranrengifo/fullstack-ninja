@@ -1,0 +1,38 @@
+#first-load {
+      height: 100%;
+      -webkit-box-shadow: inset 0px 0px 200px 10px rgba(0,0,0,0.75);
+      -moz-box-shadow: inset 0px 0px 200px 10px rgba(0,0,0,0.75);
+      box-shadow: inset 0px 0px 200px 10px rgba(0,0,0,0.75);
+      overflow: hidden;
+      h1 {
+            margin: 0;
+            color: white;
+            div {
+                  font-weight: 100;
+                  text-align: center;
+                  opacity: 0;
+                  &.visible {
+                        opacity: 1;
+                        &.ninja-small {
+                              transform: rotate(-5deg) scale(1);
+                        }
+                  }
+                  &.fullstack {
+                        @include transition(all 3.5s linear);
+                        letter-spacing: 15px;
+                        font-size: 1.5rem;
+                        margin-bottom: 30px;
+                  }
+                  &.ninja {
+                        @include transition(all 1.5s linear);
+                        font-family: 'ninja_narutoregular';
+                        font-size: 9rem;
+                        letter-spacing: 60px;
+                        transform: scale(100);
+                        -webkit-text-stroke-width: 4px;
+                        -webkit-text-stroke-color: red;
+                        text-shadow: 0px 0px 120px rgb(0, 0, 0);
+                  }
+            }
+      }
+}

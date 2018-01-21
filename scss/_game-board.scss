@@ -1,0 +1,57 @@
+#game-board {
+      width: 100vw;
+      height: 100vh;
+      background-size: cover!important;
+      background-position: 0 0 !important;
+      position: relative;
+      display: none;
+      text-align: center;
+      -webkit-box-shadow: inset 0px 0px 130px 59px rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: inset 0px 0px 130px 59px rgba(0, 0, 0, 0.75);
+      box-shadow: inset 0px 0px 130px 59px rgba(0, 0, 0, 0.75);
+      canvas {
+            box-sizing: border-box;
+            max-width: 98%;
+            z-index: 9;
+            position: relative;
+            -webkit-box-shadow: 0px 5px 30px -10px rgba(255,255,255,0.75);
+            -moz-box-shadow: 0px 5px 30px -10px rgba(255,255,255,0.75);
+            box-shadow: 0px 5px 30px -10px rgba(255,255,255,0.75);
+      }
+      #game-info {
+            height: 50px;
+            background: transparent;
+            border: 1px solid black;
+            margin-bottom: 40px;
+      }
+      &:after {
+            content: '';
+            width: 100%;
+            height: 100%;
+            background: #00000073;
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+      }
+}
+
+body {
+      &.level {
+            &1 {
+                  #game-board {
+                        background: url(../img/1-undead-bg-body-tiled.jpg);
+                  }
+            }
+            &2 {
+                  #game-board {
+                        background: url(../img/2-bg-body-dungenos-tiled.jpg);
+                  }
+            }
+            &3 {
+                  #game-board {
+                        background: url(../img/3-bg-body-magic.jpg);
+                  }
+            }
+      }
+}

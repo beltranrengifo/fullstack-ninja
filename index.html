@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Fullstack Ninja</title>
+      <link href="https://fonts.googleapis.com/css?family=Lekton:400,700|Molengo" rel="stylesheet">
+      <link rel="stylesheet" href="css/main.css">
+      <script src="js/jquery-3.2.1.min.js"></script>
+      <script src="js/board.js"></script>
+      <script src="js/ninja.js"></script>
+      <script src="js/monster.js"></script>
+      <script src="js/game.js"></script>
+      <script src="js/main.js"></script>
+</head>
+
+<body>
+      <main>
+            <!-- NOTE: Comentado para desarrollo -->
+            <div id="first-load" class="flex-container justify-content-center align-items-center">
+                  <h1>
+                        <div class="fullstack">Fullstack</div>
+                        <div class="ninja">Ninja</div>
+                  </h1>
+            </div>
+            <div id="level-selection">
+                  <div class="container">
+                        <h2>Defeat the Beast
+                              <span>Try to stay alive!</span>
+                        </h2>
+                        <div class="level-box column-wrapper" data-level="level1">
+                              <!-- NOTE: enemigo vencido añadir clases defeated y disabled -->
+                              <div class="villain column">
+                                    <img src="img/monster-doom.png" alt="Doom"> </div>
+                              <div class="description column">
+                                    <h2 class="doom">Da Doom</h2>
+                                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum quam, imperdiet id ex in, maximus pretium massa. Donec tellus erat, hendrerit ut varius non, accumsan elementum.</p>
+                              </div>
+                        </div>
+                        <div class="level-box column-wrapper disabled" data-level="level2">
+                              <div class="villain column">
+                                    <img src="img/monster-wakkend.png" alt="Wakkend"> </div>
+                              <div class="description column">
+                                    <h2 class="wakkend">Da Wakkend</h2>
+                                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum quam, imperdiet id ex in, maximus pretium massa. Donec tellus erat, hendrerit ut varius non, accumsan elementum.</p>
+                              </div>
+                        </div>
+                        <div class="level-box column-wrapper disabled" data-level="level3">
+                              <div class="villain column">
+                                    <img src="img/monster-frunth.png" alt="Frunth"> </div>
+                              <div class="description column">
+                                    <h2 class="frunth">Da Frunth</h2>
+                                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum quam, imperdiet id ex in, maximus pretium massa. Donec tellus erat, hendrerit ut varius non, accumsan elementum.</p>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+            <div id="game-board">
+                  <div id="game-info"> </div>
+                  <canvas id="canvas-game"></canvas>
+            </div>
+      </main>
+</body>
+
+</html>
