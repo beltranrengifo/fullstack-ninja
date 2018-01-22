@@ -1,10 +1,9 @@
 /*=======================
 GLOBALS
 =======================*/
-var ninja = new Ninja();
-var monsterSrc;
+var ninja = new Ninja(monster);
+console.log(ninja);
 var levelBg;
-var monsterName;
 var monster;
 var board;
 /* ojo delta para smooth movement (extraído del ejemplo de los cubos)
@@ -12,6 +11,10 @@ https://codepen.io/boyander/pen/XVyEbv?editors=1010 */
 var now = Date.now();
 var delta = 0;
 
+var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
+var requesting;
+var cancelRequest;
 /*=======================
 ASSIGN ASSETS PARA 
 LAS FX CONSTRUCTORAS
@@ -24,7 +27,8 @@ function assignAssets(level) {
                   monsterOptions = {
                         src: 'img/sprites/monster-doom-idle.png',
                         name: 'Da Doom',
-                        pos: {x: 1110,y: 60}
+                        pos: {x: 1110,y: 60},
+                        level: level
                   }
                   levelBg = 'img/level1-bg.jpg';
                   break;
@@ -32,7 +36,8 @@ function assignAssets(level) {
                   monsterOptions = {
                         src: 'img/sprites/monster-doom-idle.png',
                         name: 'Da Wakkend',
-                        pos: {x: 1110,y: 60}
+                        pos: {x: 1110,y: 60},
+                        level: level
                   }
                   levelBg = 'img/level2-bg.jpg';
                   break;
@@ -40,7 +45,8 @@ function assignAssets(level) {
                   monsterOptions = {
                         src: 'img/sprites/monster-doom-idle.png',
                         name: 'Da Wakkend',
-                        pos: {x: 1000,y: 70}
+                        pos: {x: 1000,y: 70},
+                        level: level
                   }
                   levelBg = 'img/level3-bg.jpg';
                   break;
@@ -65,9 +71,10 @@ function startGame(board, ninja, monster) {
       board.clean(board.ctx);
       board.render(board, ninja, delta, monster);
       //lanzamos la secuencia del navegador
-      window.requestAnimationFrame(function () {
+      requesting = function  () {
             startGame(board, ninja, monster);
-      });
+      }
+      cancelRequest = requestAnimationFrame(requesting);
 };
 
 /*=======================
@@ -108,3 +115,17 @@ $(document).keyup(function (e) {
                   return; // exit this handler for other keys
       }
 });
+
+
+function changeLevel(level) {
+      
+      cancelAnimationFrame(cancelRequest);
+      cancelRequest = '';
+      console.log(cancelRequest);
+      // window.cancelAnimationFrame(request);
+      console.log('change level fx');
+      $('.level-box[data-level="' + level + '"]').addClass('defeated disabled').next().removeClass('disabled');
+      $('#game-board').fadeOut(500, function () {
+            levelSelection();
+      });
+}

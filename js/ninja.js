@@ -73,8 +73,7 @@ Ninja.prototype.jump = function () {
             this.y = 285;
       } else if (this.y < 285) {
             this.stop();
-      } 
-      else {
+      } else {
             this.y -= this.speedY / 1000 * delta;
       }
 }
@@ -93,32 +92,45 @@ Ninja.prototype.stop = function () {
       } else {
             this.img.src = 'img/sprites/ninja-idle-rev.png';
       }
-      
+
       //resetea el current frame al 0, para los sprites de 1 sola img
       // this.currentFrame = 0;
 }
 
-Ninja.prototype.attack = function(monster) {
+Ninja.prototype.attack = function (monster) {
       this.totalFrames = 24;
       if (this.direction === 1) {
             this.img.src = 'img/sprites/ninja-attack-1.png';
       } else {
             this.img.src = 'img/sprites/ninja-attack-1-rev.png';
       }
-      if ( this.detectContact(monster) ) {
-            console.log(monster.health);
+      if (this.detectContact(monster)) {
             if (monster.health > 0) {
                   monster.health -= 10;
-            } else {
-                  this.win()
+                  console.log(monster.health);
+            } else if (monster.health <= 0) {
+                  this.win();
             }
-            
-            console.log(monster.health);
       }
 }
 
 Ninja.prototype.detectContact = function (monster) {
-      if ( this.x + this.frameWidth >= monster.x) {
+      if (this.x + this.frameWidth >= monster.x) {
             return true;
       }
+}
+
+Ninja.prototype.win = function () {
+      this.x = 30;
+      this.shift = 0;
+      this.currentFrame = 0;
+      this.direction = 1;
+      this.img.src = 'img/sprites/ninja-jump.png';
+      $('#game-result-modal h2 span').text('WIN');
+      $('#game-result-modal h3').html('<span>' + monster.name +'</span> has been defeated');
+      $('#game-result-modal').fadeIn();
+      $('.next-level-btn button').click(function(){
+            $('#game-result-modal').fadeOut();
+            changeLevel(monster.level);
+      });
 }
