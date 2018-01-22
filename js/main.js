@@ -1,4 +1,7 @@
 $(document).ready(() => {
+      /*=======================
+      PANTALLA DE INICIO / SELECCIÓN DE NIVEL
+      =======================*/
       //NOTE: comentado para desarrollo
       /* firstLoad();
       setTimeout(function () {

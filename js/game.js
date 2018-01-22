@@ -21,24 +21,33 @@ function assignAssets(level) {
       en la pantalla de seleccionar nivel */
       switch (level) {
             case 'level1':
-                  monsterSrc = 'img/monster-doom.png';
-                  monsterName = 'Da Doom';
+                  monsterOptions = {
+                        src: 'img/sprites/monster-doom-idle.png',
+                        name: 'Da Doom',
+                        pos: {x: 1110,y: 60}
+                  }
                   levelBg = 'img/level1-bg.jpg';
                   break;
             case 'level2':
-                  monsterSrc = 'img/monster-wakkend.png';
-                  monsterName = 'Da Wakkend';
+                  monsterOptions = {
+                        src: 'img/sprites/monster-doom-idle.png',
+                        name: 'Da Wakkend',
+                        pos: {x: 1110,y: 60}
+                  }
                   levelBg = 'img/level2-bg.jpg';
                   break;
             case 'level3':
-                  monsterSrc = 'img/monster-frunth.png';
-                  monsterName = 'Da Frunth';
+                  monsterOptions = {
+                        src: 'img/sprites/monster-doom-idle.png',
+                        name: 'Da Wakkend',
+                        pos: {x: 1000,y: 70}
+                  }
                   levelBg = 'img/level3-bg.jpg';
                   break;
       }
       //nuevos objetos de board y monster
       board = new Board(levelBg);
-      monster = new Monster(monsterSrc, monsterName, board);
+      monster = new Monster(monsterOptions, board);
       //fx de start
       startGame(board, ninja, monster);
 }
@@ -68,11 +77,11 @@ $(document).keydown(function (e) {
       switch (e.keyCode) {
             //izq
             case 37:
-                  ninja.move(-1);
+                  ninja.move(-1,monster);
                   break;
                   //dere
             case 39:
-                  ninja.move(1);
+                  ninja.move(1,monster);
                   break;
             case 38:
                   ninja.jump();
@@ -81,7 +90,8 @@ $(document).keydown(function (e) {
                   ninja.attack(monster);
                   break;
             default:
-                  return; // exit this handler for other keys
+                  // exit this handler for other keys
+                  return;
       }
 });
 

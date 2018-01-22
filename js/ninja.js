@@ -47,8 +47,8 @@ Ninja.prototype.move = function (direction) {
       this.direction = direction;
       if (this.x < 20) {
             this.x = 20;
-      } else if (this.x > 1390) {
-            this.x = 1380;
+      } else if (this.x > 980) {
+            this.x = 970;
       } else if (this.y > 284) {
             if (this.direction === -1) {
                   this.img.src = 'img/sprites/ninja-run-large-backwards.png';
@@ -106,12 +106,19 @@ Ninja.prototype.attack = function(monster) {
             this.img.src = 'img/sprites/ninja-attack-1-rev.png';
       }
       if ( this.detectContact(monster) ) {
-            monster.health -= 10;
+            console.log(monster.health);
+            if (monster.health > 0) {
+                  monster.health -= 10;
+            } else {
+                  this.win()
+            }
+            
+            console.log(monster.health);
       }
 }
 
 Ninja.prototype.detectContact = function (monster) {
-      if ( this.x + this.frameWidth <= monster.x) {
-            console.log('tocado');
+      if ( this.x + this.frameWidth >= monster.x) {
+            return true;
       }
 }
