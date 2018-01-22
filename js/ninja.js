@@ -50,8 +50,8 @@ Ninja.prototype.move = function (direction) {
       this.direction = direction;
       if (this.x < 20) {
             this.x = 20;
-      } else if (this.x > 980) {
-            this.x = 970;
+      } else if (this.x > 1100) {
+            this.x = 1090;
       } else if (this.y > 284) {
             if (this.direction === -1) {
                   this.img.src = 'img/sprites/ninja-run-large-backwards.png';
@@ -129,6 +129,8 @@ Ninja.prototype.detectContact = function (monster) {
 }
 
 Ninja.prototype.win = function () {
+      randomAttack = false;
+      monster.surrender();
       this.victories++;
       this.img.src = 'img/sprites/ninja-jump.png';
       $('#game-result-modal h2 span').text('WIN');

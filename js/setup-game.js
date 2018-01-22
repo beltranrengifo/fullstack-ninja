@@ -5,6 +5,8 @@ var ninja = new Ninja(monster);
 var levelBg;
 var monster;
 var monsterAttack;
+var randomAttack;
+var massiveAttack = false;
 var board;
 /* ojo delta para smooth movement (extraído del ejemplo de los cubos)
 https://codepen.io/boyander/pen/XVyEbv?editors=1010 */
@@ -25,7 +27,7 @@ function assignAssets(level) {
                         name: 'Da Doom',
                         pos: {
                               x: 1300,
-                              y:350
+                              y: 350
                         },
                         level: level
                   }
@@ -33,7 +35,7 @@ function assignAssets(level) {
                   break;
             case 'level2':
                   monsterOptions = {
-                        src: 'img/sprites/monster-doom-idle.png',
+                        src: 'img/sprites/monster-doom-idle-xs.png',
                         name: 'Da Wakkend',
                         pos: {
                               x: 1110,
@@ -45,7 +47,7 @@ function assignAssets(level) {
                   break;
             case 'level3':
                   monsterOptions = {
-                        src: 'img/sprites/monster-doom-idle.png',
+                        src: 'img/sprites/monster-doom-idle-xs.png',
                         name: 'Da Wakkend',
                         pos: {
                               x: 1000,
@@ -56,22 +58,22 @@ function assignAssets(level) {
                   levelBg = 'img/level3-bg.jpg';
                   break;
       }
-      
+
       var game = new Game(board, ninja, monster);
-      //nuevos objetos de board y monster
       board = new Board(levelBg);
       monster = new Monster(monsterOptions, board);
       monsterAttack = new MonsterAttack(board);
       ninja.x = 30;
       ninja.won = false;
-      
-      //fx de start
+      loopMassiveAtack();
+      //first load
       if (firstLoad) {
             startGame(game);
             firstLoad = false;
       }
 
 }
+
 
 /*=======================
 START GAME!
@@ -85,11 +87,13 @@ function startGame(game) {
       (OJO que el render del ninja se re-lanza desde el render del board) */
       board.clean(board.ctx);
       board.render(board, ninja, delta, monster);
+      if (massiveAttack) {
+            monsterAttack.render(board, delta);
+      }
       //lanzamos la secuencia del navegador
       window.requestAnimationFrame(function () {
             startGame(board, ninja, monster);
       });
-      // cancelRequest = requestAnimationFrame(requesting);
 };
 
 /*=======================
@@ -144,6 +148,12 @@ function changeLevel(level, victories) {
                   levelSelection();
             });
       }
-
-
 }
+
+function loopMassiveAtack() {
+      randomAttack = Math.round(Math.random() * (3000 - 500)) + 500;
+      setTimeout(function () {
+            monster.attack()
+            loopMassiveAtack();      
+      }, randomAttack);
+};

@@ -31,6 +31,9 @@ Monster.prototype.render = function (board, delta) {
 }
 
 Monster.prototype.attack = function() {
-      monsterAttack.render(board);
-      
+      massiveAttack = true;
+}
+
+Monster.prototype.surrender = function() {
+      // massiveAttack = false;
 }
