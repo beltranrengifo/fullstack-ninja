@@ -17,10 +17,13 @@ function Ninja(monster) {
       this.speedY = 0;
       this.maxSpeedX = 600;
       this.maxSpeedY = 700;
+      this.jumping = false;
       // vida
       this.health = 100;
       this.damage = 7;
       this.extraDamage = [];
+      this.victories = 0;
+      this.won = false;
 }
 
 Ninja.prototype.render = function (board, delta) {
@@ -68,7 +71,9 @@ Ninja.prototype.jump = function () {
       } else {
             this.img.src = 'img/sprites/ninja-jump-reverse.png';
       }
+
       this.speedY = this.maxSpeedY;
+
       if (this.y > 285) {
             this.y = 285;
       } else if (this.y < 285) {
@@ -77,6 +82,7 @@ Ninja.prototype.jump = function () {
             this.y -= this.speedY / 1000 * delta;
       }
 }
+
 
 Ninja.prototype.stop = function () {
       this.speedX = 0;
@@ -92,9 +98,6 @@ Ninja.prototype.stop = function () {
       } else {
             this.img.src = 'img/sprites/ninja-idle-rev.png';
       }
-
-      //resetea el current frame al 0, para los sprites de 1 sola img
-      // this.currentFrame = 0;
 }
 
 Ninja.prototype.attack = function (monster) {
@@ -105,11 +108,16 @@ Ninja.prototype.attack = function (monster) {
             this.img.src = 'img/sprites/ninja-attack-1-rev.png';
       }
       if (this.detectContact(monster)) {
-            if (monster.health <= 1) {
+            if (monster.health <= 1 && this.won === false) {
+                  this.won = true;
                   this.win();
+
+                  console.log('win');
+                  return;
             } else if (monster.health > 1) {
                   monster.health -= 10;
                   console.log(monster.health);
+                  return;
             }
       }
 }
@@ -121,16 +129,13 @@ Ninja.prototype.detectContact = function (monster) {
 }
 
 Ninja.prototype.win = function () {
-      this.shift = 0;
-      this.currentFrame = 0;
-      this.direction = 1;
+      this.victories++;
       this.img.src = 'img/sprites/ninja-jump.png';
       $('#game-result-modal h2 span').text('WIN');
-      $('#game-result-modal h3').html('<span>' + monster.name +'</span> has been defeated');
+      $('#game-result-modal h3').html('<span>' + monster.name + '</span> has been defeated');
       $('#game-result-modal').fadeIn();
-      $('.next-level-btn button').click(function(){
+      $('.next-level-btn button').click(function () {
             $('#game-result-modal').fadeOut();
-            changeLevel(monster.level);
-
+            changeLevel(monster.level, ninja.victories);
       });
 }

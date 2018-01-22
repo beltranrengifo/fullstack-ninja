@@ -24,11 +24,9 @@ function firstLoad() {
 }
 
 function levelSelection() {
-      //NOTE: comentado para desarrollo
       $('#first-load').fadeOut(500, function () {
             $('#level-selection').fadeIn(500);
       });
-      // CLOSE NOTE
       $('.level-box:not(.disabled)').click(function () {
             $('#level-selection').fadeOut(500, function () {
                   $('#game-board').fadeIn(500);
@@ -37,5 +35,6 @@ function levelSelection() {
             $('body').removeClass().addClass(level);
             assignAssets(level);
       });
+      
 };
 

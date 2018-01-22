@@ -2,19 +2,15 @@
 GLOBALS
 =======================*/
 var ninja = new Ninja(monster);
-console.log(ninja);
 var levelBg;
 var monster;
+var monsterAttack;
 var board;
 /* ojo delta para smooth movement (extraído del ejemplo de los cubos)
 https://codepen.io/boyander/pen/XVyEbv?editors=1010 */
 var now = Date.now();
 var delta = 0;
 var firstLoad = true;
-// var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-// var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
-// var requesting;
-// var cancelRequest;
 /*=======================
 ASSIGN ASSETS PARA 
 LAS FX CONSTRUCTORAS
@@ -25,11 +21,11 @@ function assignAssets(level) {
       switch (level) {
             case 'level1':
                   monsterOptions = {
-                        src: 'img/sprites/monster-doom-idle.png',
+                        src: 'img/sprites/monster-doom-idle-xs.png',
                         name: 'Da Doom',
                         pos: {
-                              x: 1110,
-                              y: 60
+                              x: 1300,
+                              y:350
                         },
                         level: level
                   }
@@ -60,12 +56,15 @@ function assignAssets(level) {
                   levelBg = 'img/level3-bg.jpg';
                   break;
       }
+      
+      var game = new Game(board, ninja, monster);
       //nuevos objetos de board y monster
       board = new Board(levelBg);
       monster = new Monster(monsterOptions, board);
-      //nueva partida con los assignments de cada level
-      var game = new Game(board, ninja, monster);
-
+      monsterAttack = new MonsterAttack(board);
+      ninja.x = 30;
+      ninja.won = false;
+      
       //fx de start
       if (firstLoad) {
             startGame(game);
@@ -133,12 +132,18 @@ $(document).keyup(function (e) {
 });
 
 
-function changeLevel(level) {
-      // cancelAnimationFrame(cancelRequest);
-      // console.log('change level fx');
-      ninja.x = 30;
-      $('.level-box[data-level="' + level + '"]').addClass('defeated disabled').next().removeClass('disabled');
-      $('#game-board').fadeOut(500, function () {
-            levelSelection();
-      });
+function changeLevel(level, victories) {
+      if (victories < 3) {
+            $('.level-box[data-level="' + level + '"]').addClass('defeated disabled').next().removeClass('disabled');
+            $('#game-board').fadeOut(500, function () {
+                  levelSelection();
+            });
+      } else {
+            console.log('has guanyat foquer');
+            $('#game-board').fadeOut(500, function () {
+                  levelSelection();
+            });
+      }
+
+
 }
