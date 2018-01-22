@@ -3,18 +3,16 @@ $(document).ready(() => {
       PANTALLA DE INICIO / SELECCIÓN DE NIVEL
       =======================*/
       //NOTE: comentado para desarrollo
-      firstLoad();
+     /*  firstLoad();
       setTimeout(function () {
             levelSelection();
-      }, 5000);
+      }, 5000); */
       // CLOSE NOTE
 
-      //NOTE: comentado para desarrollo
-
-      // CLOSE NOTE
+     
 
       //NOTE: añadido SOLO para desarrollo
-      // levelSelection();
+      levelSelection();
       // CLOSE NOTE      
 });
 

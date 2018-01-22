@@ -105,11 +105,11 @@ Ninja.prototype.attack = function (monster) {
             this.img.src = 'img/sprites/ninja-attack-1-rev.png';
       }
       if (this.detectContact(monster)) {
-            if (monster.health > 0) {
+            if (monster.health <= 1) {
+                  this.win();
+            } else if (monster.health > 1) {
                   monster.health -= 10;
                   console.log(monster.health);
-            } else if (monster.health <= 0) {
-                  this.win();
             }
       }
 }
@@ -121,7 +121,6 @@ Ninja.prototype.detectContact = function (monster) {
 }
 
 Ninja.prototype.win = function () {
-      this.x = 30;
       this.shift = 0;
       this.currentFrame = 0;
       this.direction = 1;
@@ -132,5 +131,6 @@ Ninja.prototype.win = function () {
       $('.next-level-btn button').click(function(){
             $('#game-result-modal').fadeOut();
             changeLevel(monster.level);
+
       });
 }
