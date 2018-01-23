@@ -17,8 +17,6 @@ function Monster(monsterOptions, board) {
       this.level = monsterOptions.level;
 }
 
-
-
 Monster.prototype.render = function (board, delta) {
       board.ctx.drawImage(this.img, this.shift, 0, this.frameWidth, this.frameHeight, this.x, this.y, this.frameWidth, this.frameHeight);
       // board.ctx.drawImage(this.img, this.x, this.y, this.frameWidth, this.frameHeight);
@@ -31,7 +29,10 @@ Monster.prototype.render = function (board, delta) {
 }
 
 Monster.prototype.attack = function() {
-      massiveAttack = true;
+      massiveAttack = true; 
+      if (monsterAttack.x < 0) {
+            monsterAttack.x = 1200;
+      }    
 }
 
 Monster.prototype.surrender = function() {

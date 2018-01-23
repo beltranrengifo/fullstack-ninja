@@ -65,7 +65,8 @@ function assignAssets(level) {
       monsterAttack = new MonsterAttack(board);
       ninja.x = 30;
       ninja.won = false;
-      loopMassiveAtack();
+      loopMassiveAtack(monsterAttack);
+
       //first load
       if (firstLoad) {
             startGame(game);
@@ -89,6 +90,7 @@ function startGame(game) {
       board.render(board, ninja, delta, monster);
       if (massiveAttack) {
             monsterAttack.render(board, delta);
+            //ninja.checkDamage(monsterAttack);
       }
       //lanzamos la secuencia del navegador
       window.requestAnimationFrame(function () {
@@ -143,6 +145,7 @@ function changeLevel(level, victories) {
                   levelSelection();
             });
       } else {
+            // 3 victorias - partida ganada
             console.log('has guanyat foquer');
             $('#game-board').fadeOut(500, function () {
                   levelSelection();

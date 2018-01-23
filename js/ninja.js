@@ -111,12 +111,9 @@ Ninja.prototype.attack = function (monster) {
             if (monster.health <= 1 && this.won === false) {
                   this.won = true;
                   this.win();
-
-                  console.log('win');
                   return;
             } else if (monster.health > 1) {
                   monster.health -= 10;
-                  console.log(monster.health);
                   return;
             }
       }
@@ -129,8 +126,7 @@ Ninja.prototype.detectContact = function (monster) {
 }
 
 Ninja.prototype.win = function () {
-      randomAttack = false;
-      monster.surrender();
+      // monster.surrender();
       this.victories++;
       this.img.src = 'img/sprites/ninja-jump.png';
       $('#game-result-modal h2 span').text('WIN');
@@ -140,4 +136,8 @@ Ninja.prototype.win = function () {
             $('#game-result-modal').fadeOut();
             changeLevel(monster.level, ninja.victories);
       });
+}
+
+Ninja.prototype.checkDamage = function(monsterAttack) {
+      //console.log(monsterAttack.x);
 }
