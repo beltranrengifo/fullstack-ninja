@@ -72,7 +72,6 @@ function assignAssets(level) {
             startGame(game);
             firstLoad = false;
       }
-
 }
 
 
@@ -90,13 +89,46 @@ function startGame(game) {
       board.render(board, ninja, delta, monster);
       if (massiveAttack) {
             monsterAttack.render(board, delta);
-            //ninja.checkDamage(monsterAttack);
+            if ( (Math.floor(monsterAttack.x) < Math.floor((ninja.x + 150))) && (Math.floor(monsterAttack.x) > Math.floor((ninja.x))) ) {
+                  if (Math.floor((ninja.y + 270)) > monsterAttack.y) {
+                        console.log('tocado');
+                        //monsterAttack.x = 1200;
+                        monsterAttack.explode();
+                  }
+            }
       }
       //lanzamos la secuencia del navegador
       window.requestAnimationFrame(function () {
             startGame(board, ninja, monster);
       });
 };
+
+
+function loopMassiveAtack() {
+      randomAttack = Math.round(Math.random() * (3000 - 500)) + 500;
+      setTimeout(function () {
+            monster.attack()
+            loopMassiveAtack();
+      }, randomAttack);
+};
+
+
+function changeLevel(level, victories) {
+      if (victories < 3) {
+            $('.level-box[data-level="' + level + '"]').addClass('defeated disabled').next().removeClass('disabled');
+            $('#game-board').fadeOut(500, function () {
+                  levelSelection();
+            });
+      } else {
+            // 3 victorias - partida ganada
+            console.log('has guanyat foquer');
+            $('#game-board').fadeOut(500, function () {
+                  levelSelection();
+            });
+      }
+}
+
+
 
 /*=======================
 KEY EVENTS MOVE NINJA
@@ -122,7 +154,6 @@ $(document).keydown(function (e) {
                   return;
       }
 });
-
 //ON KEYUP SE RESETEA LA SPEED
 $(document).keyup(function (e) {
       switch (e.keyCode) {
@@ -136,27 +167,3 @@ $(document).keyup(function (e) {
                   return; // exit this handler for other keys
       }
 });
-
-
-function changeLevel(level, victories) {
-      if (victories < 3) {
-            $('.level-box[data-level="' + level + '"]').addClass('defeated disabled').next().removeClass('disabled');
-            $('#game-board').fadeOut(500, function () {
-                  levelSelection();
-            });
-      } else {
-            // 3 victorias - partida ganada
-            console.log('has guanyat foquer');
-            $('#game-board').fadeOut(500, function () {
-                  levelSelection();
-            });
-      }
-}
-
-function loopMassiveAtack() {
-      randomAttack = Math.round(Math.random() * (3000 - 500)) + 500;
-      setTimeout(function () {
-            monster.attack()
-            loopMassiveAtack();      
-      }, randomAttack);
-};
