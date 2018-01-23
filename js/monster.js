@@ -7,7 +7,6 @@ function Monster(monsterOptions, board) {
       //image properties
       this.img = new Image();
       this.img.src = monsterOptions.src;
-      // this.img.src = 'img/monster-doom.png';
       //sprites
       this.shift = 0;
       this.frameWidth = 291.58;
@@ -33,8 +32,4 @@ Monster.prototype.attack = function() {
       if (monsterAttack.x < 0) {
             monsterAttack.x = 1200;
       }    
-}
-
-Monster.prototype.surrender = function() {
-      // massiveAttack = false;
 }

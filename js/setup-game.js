@@ -38,24 +38,26 @@ function assignAssets(level) {
                         src: 'img/sprites/monster-doom-idle-xs.png',
                         name: 'Da Wakkend',
                         pos: {
-                              x: 1110,
-                              y: 60
+                              x: 1300,
+                              y: 350
                         },
                         level: level
                   }
                   levelBg = 'img/level2-bg.jpg';
+                  massiveAttack = false;
                   break;
             case 'level3':
                   monsterOptions = {
                         src: 'img/sprites/monster-doom-idle-xs.png',
                         name: 'Da Wakkend',
                         pos: {
-                              x: 1000,
-                              y: 70
+                              x: 1300,
+                              y: 360
                         },
                         level: level
                   }
                   levelBg = 'img/level3-bg.jpg';
+                  massiveAttack = false;
                   break;
       }
 
@@ -92,8 +94,9 @@ function startGame(game) {
             if ( (Math.floor(monsterAttack.x) < Math.floor((ninja.x + 150))) && (Math.floor(monsterAttack.x) > Math.floor((ninja.x))) ) {
                   if (Math.floor((ninja.y + 270)) > monsterAttack.y) {
                         console.log('tocado');
-                        //monsterAttack.x = 1200;
-                        monsterAttack.explode();
+                        ninja.checkDamage();
+                        monsterAttack.x = 1200;
+                        massiveAttack = false;
                   }
             }
       }
