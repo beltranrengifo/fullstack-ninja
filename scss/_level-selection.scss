@@ -88,12 +88,15 @@
                               -moz-box-shadow: inset 0px 0px 180px 35px rgba(0, 0, 0, 0.75);
                               box-shadow: inset 0px 0px 180px 35px rgba(0, 0, 0, 0.75);
                               img,
-                              h2,p {
+                              h2,
+                              p {
                                     opacity: .3;
                               }
                         }
                   }
                   &.defeated {
+                        -webkit-filter: none;
+                        filter: none;
                         .villain {
                               &:after,
                               &:before {
@@ -101,7 +104,7 @@
                                     position: absolute;
                                     width: 108%;
                                     height: 10px;
-                                    background: #1f1d19;
+                                    background: red;
                                     transform: rotate(28.5deg);
                                     transform-origin: 0 0;
                                     border-radius: 5px;
@@ -113,6 +116,13 @@
                                     transform: rotate(-28.5deg);
                                     left: initial;
                                     right: 3%;
+                              }
+                        }
+                        div {
+                              img,
+                              h2,
+                              p {
+                                    opacity: 1;
                               }
                         }
                   }

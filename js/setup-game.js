@@ -8,6 +8,8 @@ var monsterAttack;
 var randomAttack;
 var massiveAttack = false;
 var board;
+var massiveAttackSpeed = 0;
+var rocketImage;
 /* ojo delta para smooth movement (extraído del ejemplo de los cubos)
 https://codepen.io/boyander/pen/XVyEbv?editors=1010 */
 var now = Date.now();
@@ -32,6 +34,7 @@ function assignAssets(level) {
                         level: level
                   }
                   levelBg = 'img/level1-bg.jpg';
+                  rocketImage = 'img/monster-rocket-1.png';
                   break;
             case 'level2':
                   monsterOptions = {
@@ -44,7 +47,9 @@ function assignAssets(level) {
                         level: level
                   }
                   levelBg = 'img/level2-bg.jpg';
+                  rocketImage = 'img/monster-rocket-2.png';
                   massiveAttack = false;
+                  massiveAttackSpeed = 500;
                   break;
             case 'level3':
                   monsterOptions = {
@@ -57,22 +62,33 @@ function assignAssets(level) {
                         level: level
                   }
                   levelBg = 'img/level3-bg.jpg';
+                  rocketImage = 'img/monster-rocket-3.png';
                   massiveAttack = false;
+                  massiveAttackSpeed = 1500;
                   break;
       }
 
       var game = new Game(board, ninja, monster);
       board = new Board(levelBg);
       monster = new Monster(monsterOptions, board);
-      monsterAttack = new MonsterAttack(board);
-      ninja.x = 30;
-      ninja.won = false;
+      monsterAttack = new MonsterAttack(board,rocketImage);
+      
+      console.log(ninja.health);
+
       loopMassiveAtack(monsterAttack);
 
       //first load
       if (firstLoad) {
             startGame(game);
             firstLoad = false;
+      // not first load - reset game parameters
+      } else {
+            ninja.health = 100;
+            ninja.x = 30;
+            ninja.won = false;
+            ninja.defeated = false;
+            ninja.img.src = 'img/sprites/ninja-idle.png';
+            that.totalFrames = 24;
       }
 }
 
@@ -91,9 +107,8 @@ function startGame(game) {
       board.render(board, ninja, delta, monster);
       if (massiveAttack) {
             monsterAttack.render(board, delta);
-            if ( (Math.floor(monsterAttack.x) < Math.floor((ninja.x + 150))) && (Math.floor(monsterAttack.x) > Math.floor((ninja.x))) ) {
+            if ((Math.floor(monsterAttack.x) < Math.floor((ninja.x + 150))) && (Math.floor(monsterAttack.x) > Math.floor((ninja.x)))) {
                   if (Math.floor((ninja.y + 270)) > monsterAttack.y) {
-                        console.log('tocado');
                         ninja.checkDamage();
                         monsterAttack.x = 1200;
                         massiveAttack = false;
@@ -112,26 +127,28 @@ function loopMassiveAtack() {
       setTimeout(function () {
             monster.attack()
             loopMassiveAtack();
-      }, randomAttack);
+      }, randomAttack - massiveAttackSpeed);
 };
 
-
-function changeLevel(level, victories) {
-      if (victories < 3) {
-            $('.level-box[data-level="' + level + '"]').addClass('defeated disabled').next().removeClass('disabled');
-            $('#game-board').fadeOut(500, function () {
-                  levelSelection();
-            });
+function changeLevel(level, victories, defeated) {
+      console.log(defeated);
+      console.log(victories);
+      if (defeated) {
+            levelSelection();
       } else {
-            // 3 victorias - partida ganada
-            console.log('has guanyat foquer');
-            $('#game-board').fadeOut(500, function () {
-                  levelSelection();
-            });
+            if (victories < 3) {
+                  $('.level-box[data-level="' + level + '"]').addClass('defeated disabled').next().removeClass('disabled');
+
+            } else {
+                  // 3 victorias - partida ganada
+                  console.log('has guanyat foquer');
+            }
       }
+      $('#game-board').fadeOut(500, function () {
+            levelSelection();
+      });
+
 }
-
-
 
 /*=======================
 KEY EVENTS MOVE NINJA

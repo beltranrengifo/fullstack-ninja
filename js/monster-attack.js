@@ -1,6 +1,6 @@
-function MonsterAttack(board) {
+function MonsterAttack(board,img) {
       this.img = new Image();
-      this.img.src = 'img/monster-rocket-1.png';
+      this.img.src = img;
       this.x = 1200;
       this.y = 500;
       this.speedX = 900;
@@ -18,3 +18,8 @@ MonsterAttack.prototype.render = function (board, delta) {
       }
 }
 
+MonsterAttack.prototype.cancel = function () {
+      this.x = 2000;
+      this.speedX = 0;
+      this.img.src = '';
+}
