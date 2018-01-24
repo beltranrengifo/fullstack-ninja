@@ -13,6 +13,7 @@ var rocketImage;
 var powerUpOptions;
 var powerUps;
 var powerUpInterval;
+var horde
 /* ojo delta para smooth movement (extraído del ejemplo de los cubos)
 https://codepen.io/boyander/pen/XVyEbv?editors=1010 */
 var now = Date.now();
@@ -76,6 +77,7 @@ function assignAssets(level) {
       monster = new Monster(monsterOptions, board);
       monsterAttack = new MonsterAttack(board, rocketImage);
       powerUps = new PowerUp(powerUpOptions);
+
       //LOOP ATAQUES
       loopMassiveAtack(monsterAttack);
 
@@ -91,6 +93,7 @@ function assignAssets(level) {
             ninja.defeated = false;
             ninja.img.src = 'img/sprites/ninja-idle.png';
             that.totalFrames = 24;
+            ninja.extraPowerCount = 0;
       }
 }
 
@@ -124,20 +127,11 @@ function startGame(game) {
       monster.render(board, delta);
       ninja.render(board, delta);
       powerUps.render(board, delta);
-      if ( 
-            (ninja.x + 50 >= powerUps.x) && 
-            (ninja.x + 110 < powerUps.x + 100) &&
-            (ninja.y + 200 < powerUps.y + 100) &&
-            (ninja.y + 400 > powerUps.y - 100) 
-      ) {
+      //detect coins
+      if ((ninja.x - 10 <= powerUps.x)&&(ninja.x + 150 >= powerUps.x + 70)&&(ninja.y + 200 < powerUps.y + 70)&&(ninja.y + 250 > powerUps.y - 70)) {
             ninja.extraPower()
             powerUps.restart();
-      //       console.log('equis '+powerUps.x+' / y: '+powerUps.y);
-      // console.log ('ninjaX: '+ninja.x+' / ninjaY: '+ninja.y);
-            
       }
-      // console.log('equis '+powerUps.x+' / y: '+powerUps.y);
-      // console.log ('ninjaX: '+ninja.x+' / ninjaY: '+ninja.y);
 
       //lanzamos la secuencia del navegador
       window.requestAnimationFrame(function () {

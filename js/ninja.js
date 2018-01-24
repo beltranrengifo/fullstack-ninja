@@ -172,10 +172,10 @@ Ninja.prototype.die = function () {
       this.img.src = 'img/sprites/ninja-dies.png';
       that = this;
       setTimeout(function () {
+            that.img.src = 'img/sprites/ninja-dies-last.png';
             that.currentFrame = 0;
             that.totalFrames = 1;
-            that.img.src = 'img/sprites/ninja-dies-last.png';
-      }, 600)
+      }, 500)
       this.endLevel('die');
 }
 
@@ -203,13 +203,15 @@ Ninja.prototype.endLevel = function (action) {
 }
 
 Ninja.prototype.extraPower = function() {
+      console.log(this.extraPowerCount);
+      console.log(this.health);
       if (this.extraPowerCount < 5) {
             this.extraPowerCount ++;
-            console.log('moneda');
       } else {
             this.health += 10;
             this.extraPowerCount = 0;
             console.log('5 veces!');
+            console.log(this.health);
       }
       
 }
