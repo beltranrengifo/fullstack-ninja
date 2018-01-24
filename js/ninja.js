@@ -114,7 +114,7 @@ Ninja.prototype.attack = function (monster) {
             this.img.src = 'img/sprites/ninja-attack-1-rev.png';
       }
       if (this.detectMonsterContact(monster)) {
-            if (monster.health <= 10 && this.won === false) {
+            if (monster.health < 1 && this.won === false) {
                   monster.img.src = 'img/sprites/monster-doom-die-xs.png';
                   setTimeout(function () {
                         monster.img.src = 'img/sprites/monster-doom-die-xs-last.png';
@@ -125,13 +125,15 @@ Ninja.prototype.attack = function (monster) {
                   this.won = true;
                   this.win();
                   return;
-            } else if (monster.health > 10) {
-                  monster.img.src = 'img/sprites/monster-doom-hurt-xs.png';
-                  monster.x += 10;
-                  setTimeout(function () {
-                        monster.img.src = 'img/sprites/monster-doom-idle-xs.png';
-                  }, 1000);
+            } else if (monster.health > 1) {
+                  if (monster.health > 30) {
+                        monster.img.src = 'img/sprites/monster-doom-hurt-xs.png';      
+                        setTimeout(function () {
+                              monster.img.src = 'img/sprites/monster-doom-idle-xs.png';
+                        }, 1000);
+                  }
                   monster.health -= 10;
+                  monster.x += 10;
                   return;
             }
       }
@@ -148,7 +150,9 @@ Ninja.prototype.checkDamage = function (monsterAttack) {
             if (this.canBeHurt) {
                   this.canBeHurt = false;
                   this.health -= 10;
-                  this.x -= 20;
+                  if (this.x > 5) {
+                        this.x -= 20;
+                  }
                   this.img.src = 'img/sprites/ninja-hurt.png'
                   that = this;
                   setTimeout(function () {
@@ -166,11 +170,15 @@ Ninja.prototype.checkDamage = function (monsterAttack) {
 Ninja.prototype.win = function () {
       this.victories++;
       this.endLevel('win');
+      powerUps.isAlive = false;
+      HordeItem.isAlive = false;
 }
 
 Ninja.prototype.die = function () {
       this.img.src = 'img/sprites/ninja-dies.png';
       that = this;
+      powerUps.isAlive = false;
+      HordeItem.isAlive = false;
       setTimeout(function () {
             that.img.src = 'img/sprites/ninja-dies-last.png';
             that.currentFrame = 0;

@@ -13,7 +13,7 @@ var rocketImage;
 var powerUpOptions;
 var powerUps;
 var powerUpInterval;
-var horde
+var horde = [];
 /* ojo delta para smooth movement (extraído del ejemplo de los cubos)
 https://codepen.io/boyander/pen/XVyEbv?editors=1010 */
 var now = Date.now();
@@ -77,10 +77,8 @@ function assignAssets(level) {
       monster = new Monster(monsterOptions, board);
       monsterAttack = new MonsterAttack(board, rocketImage);
       powerUps = new PowerUp(powerUpOptions);
-
       //LOOP ATAQUES
       loopMassiveAtack(monsterAttack);
-
       //first load
       if (firstLoad) {
             startGame(game);
@@ -94,7 +92,10 @@ function assignAssets(level) {
             ninja.img.src = 'img/sprites/ninja-idle.png';
             that.totalFrames = 24;
             ninja.extraPowerCount = 0;
+            powerUps.isAlive = true;
+
       }
+
 }
 
 
@@ -127,11 +128,30 @@ function startGame(game) {
       monster.render(board, delta);
       ninja.render(board, delta);
       powerUps.render(board, delta);
+
       //detect coins
-      if ((ninja.x - 10 <= powerUps.x)&&(ninja.x + 150 >= powerUps.x + 70)&&(ninja.y + 200 < powerUps.y + 70)&&(ninja.y + 250 > powerUps.y - 70)) {
+      if ((ninja.x - 10 <= powerUps.x) && (ninja.x + 150 >= powerUps.x + 70) && (ninja.y + 100 < powerUps.y + 70) && (ninja.y + 250 > powerUps.y)) {
             ninja.extraPower()
             powerUps.restart();
       }
+
+      //rock avalanche
+      createHorde(horde);
+      horde.forEach(function (item, i) {
+            item.render(board);
+            if (item.y > 720) {
+                  horde.splice(i, 1);
+            }
+            if (
+                  (ninja.x <= item.x) &&
+                  (ninja.x + 150 >= item.x) &&
+                  (ninja.y + 200 < item.y + 45) &&
+                  (ninja.y + 300 > item.y)
+            ) {
+                  horde.splice(i, 1);
+                  ninja.checkDamage();
+            }
+      });
 
       //lanzamos la secuencia del navegador
       window.requestAnimationFrame(function () {
@@ -148,6 +168,12 @@ function loopMassiveAtack() {
       }, randomAttack - massiveAttackSpeed);
 };
 
+//fill horde
+function createHorde(horde) {
+      while (horde.length < 2) {
+            horde.push(new HordeItem());
+      }
+}
 
 function changeLevel(level, victories, defeated) {
       console.log(defeated);
