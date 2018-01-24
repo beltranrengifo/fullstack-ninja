@@ -15,8 +15,7 @@ function Board(img) {
 
 Board.prototype.render = function (board, ninja, delta, monster, monsterAttack) {
       this.ctx.drawImage(this.img, 0, 0, 1600, 720);
-      monster.render(board,delta);
-      ninja.render(board,delta);
+      
 }
 
 Board.prototype.clean = function () {

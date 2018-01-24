@@ -73,7 +73,7 @@ function assignAssets(level) {
       monster = new Monster(monsterOptions, board);
       monsterAttack = new MonsterAttack(board,rocketImage);
       
-      console.log(ninja.health);
+      
 
       loopMassiveAtack(monsterAttack);
 
@@ -106,7 +106,11 @@ function startGame(game) {
       board.clean(board.ctx);
       board.render(board, ninja, delta, monster);
       if (massiveAttack) {
-            monsterAttack.render(board, delta);
+            if (monsterAttack.x < 0) {
+                  massiveAttack = false;
+            } else {
+                  monsterAttack.render(board, delta);
+            }
             if ((Math.floor(monsterAttack.x) < Math.floor((ninja.x + 150))) && (Math.floor(monsterAttack.x) > Math.floor((ninja.x)))) {
                   if (Math.floor((ninja.y + 270)) > monsterAttack.y) {
                         ninja.checkDamage();
@@ -115,6 +119,8 @@ function startGame(game) {
                   }
             }
       }
+      monster.render(board,delta);
+      ninja.render(board,delta);
       //lanzamos la secuencia del navegador
       window.requestAnimationFrame(function () {
             startGame(board, ninja, monster);

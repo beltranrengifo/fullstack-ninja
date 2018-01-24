@@ -51,45 +51,40 @@ Ninja.prototype.render = function (board, delta) {
 }
 
 Ninja.prototype.move = function (direction) {
-      if (this.canBeHurt) {
-            this.totalFrames = 24;
-            this.direction = direction;
-            if (this.x < 20) {
-                  this.x = 20;
-            } else if (this.x > 1100) {
-                  this.x = 1090;
-            } else if (this.y > 284) {
-                  if (this.direction === -1) {
-                        this.img.src = 'img/sprites/ninja-run-large-backwards.png';
-                  } else {
-                        this.img.src = 'img/sprites/ninja-run-large.png';
-                  }
-                  this.speedX = this.maxSpeedX * this.direction;
+      this.totalFrames = 24;
+      this.direction = direction;
+      if (this.x < 20) {
+            this.x = 20;
+      } else if (this.x > 1100) {
+            this.x = 1090;
+      } else if (this.y > 284) {
+            if (this.direction === -1) {
+                  this.img.src = 'img/sprites/ninja-run-large-backwards.png';
+            } else {
+                  this.img.src = 'img/sprites/ninja-run-large.png';
             }
+            this.speedX = this.maxSpeedX * this.direction;
       }
-
 }
 
 Ninja.prototype.jump = function () {
-      if (this.canBeHurt) {
-            this.totalFrames = 1;
-            //resetea el current frame al 0, para los sprites de 1 sola img
-            this.currentFrame = 0;
-            if (this.direction === 1) {
-                  this.img.src = 'img/sprites/ninja-jump.png';
-            } else {
-                  this.img.src = 'img/sprites/ninja-jump-reverse.png';
-            }
+      this.totalFrames = 1;
+      //resetea el current frame al 0, para los sprites de 1 sola img
+      this.currentFrame = 0;
+      if (this.direction === 1) {
+            this.img.src = 'img/sprites/ninja-jump.png';
+      } else {
+            this.img.src = 'img/sprites/ninja-jump-reverse.png';
+      }
 
-            this.speedY = this.maxSpeedY;
+      this.speedY = this.maxSpeedY;
 
-            if (this.y > 285) {
-                  this.y = 285;
-            } else if (this.y < 285) {
-                  this.stop();
-            } else {
-                  this.y -= this.speedY / 1000 * delta;
-            }
+      if (this.y > 285) {
+            this.y = 285;
+      } else if (this.y < 285) {
+            this.stop();
+      } else {
+            this.y -= this.speedY / 1000 * delta;
       }
 }
 
@@ -129,7 +124,8 @@ Ninja.prototype.attack = function (monster) {
                   this.win();
                   return;
             } else if (monster.health > 1) {
-                  monster.img.src = 'img/sprites/monster-doom-hurt-xs.png'
+                  monster.img.src = 'img/sprites/monster-doom-hurt-xs.png';
+                  monster.x += 10;
                   setTimeout(function () {
                         monster.img.src = 'img/sprites/monster-doom-idle-xs.png';
                   }, 1000);
