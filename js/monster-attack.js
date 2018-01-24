@@ -1,4 +1,4 @@
-function MonsterAttack(board,img) {
+function MonsterAttack(board, img) {
       this.img = new Image();
       this.img.src = img;
       this.x = 1200;
@@ -10,12 +10,8 @@ function MonsterAttack(board,img) {
 }
 
 MonsterAttack.prototype.render = function (board, delta) {
-      // if (this.x < 0) {
-      //       massiveAttack = false;
-      // } else {
-            this.x -= this.speedX / 1000 * delta;
-            board.ctx.drawImage(this.img, this.x, this.y, this.frameWidth, this.frameHeight);
-      // }
+      this.x -= this.speedX / 1000 * delta;
+      board.ctx.drawImage(this.img, this.x, this.y, this.frameWidth, this.frameHeight);
 }
 
 MonsterAttack.prototype.cancel = function () {

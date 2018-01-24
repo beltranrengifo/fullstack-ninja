@@ -21,6 +21,7 @@ function Ninja(monster) {
       this.jumping = false;
       // vida
       this.health = 120;
+      this.extraPowerCount = 0;
       this.damage = 7;
       this.extraDamage = [];
       this.victories = 0;
@@ -113,17 +114,18 @@ Ninja.prototype.attack = function (monster) {
             this.img.src = 'img/sprites/ninja-attack-1-rev.png';
       }
       if (this.detectMonsterContact(monster)) {
-            if (monster.health <= 1 && this.won === false) {
+            if (monster.health <= 10 && this.won === false) {
                   monster.img.src = 'img/sprites/monster-doom-die-xs.png';
                   setTimeout(function () {
+                        monster.img.src = 'img/sprites/monster-doom-die-xs-last.png';
+                        console.log('muere mostro');
                         monster.currentFrame = 0;
                         monster.totalFrames = 1;
-                        monster.img.src = 'img/sprites/monster-doom-die-xs-last.png';
-                  }, 600)
+                  }, 576);
                   this.won = true;
                   this.win();
                   return;
-            } else if (monster.health > 1) {
+            } else if (monster.health > 10) {
                   monster.img.src = 'img/sprites/monster-doom-hurt-xs.png';
                   monster.x += 10;
                   setTimeout(function () {
@@ -198,4 +200,16 @@ Ninja.prototype.endLevel = function (action) {
       });
       //esto para quitar las bullets es una chapuza
       monsterAttack.cancel();
+}
+
+Ninja.prototype.extraPower = function() {
+      if (this.extraPowerCount < 5) {
+            this.extraPowerCount ++;
+            console.log('moneda');
+      } else {
+            this.health += 10;
+            this.extraPowerCount = 0;
+            console.log('5 veces!');
+      }
+      
 }

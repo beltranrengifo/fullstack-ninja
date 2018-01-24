@@ -10,6 +10,9 @@ var massiveAttack = false;
 var board;
 var massiveAttackSpeed = 0;
 var rocketImage;
+var powerUpOptions;
+var powerUps;
+var powerUpInterval;
 /* ojo delta para smooth movement (extraído del ejemplo de los cubos)
 https://codepen.io/boyander/pen/XVyEbv?editors=1010 */
 var now = Date.now();
@@ -28,7 +31,7 @@ function assignAssets(level) {
                         src: 'img/sprites/monster-doom-idle-xs.png',
                         name: 'Da Doom',
                         pos: {
-                              x: 1300,
+                              x: 1250,
                               y: 350
                         },
                         level: level
@@ -41,7 +44,7 @@ function assignAssets(level) {
                         src: 'img/sprites/monster-doom-idle-xs.png',
                         name: 'Da Wakkend',
                         pos: {
-                              x: 1300,
+                              x: 1250,
                               y: 350
                         },
                         level: level
@@ -56,7 +59,7 @@ function assignAssets(level) {
                         src: 'img/sprites/monster-doom-idle-xs.png',
                         name: 'Da Wakkend',
                         pos: {
-                              x: 1300,
+                              x: 1250,
                               y: 360
                         },
                         level: level
@@ -71,17 +74,16 @@ function assignAssets(level) {
       var game = new Game(board, ninja, monster);
       board = new Board(levelBg);
       monster = new Monster(monsterOptions, board);
-      monsterAttack = new MonsterAttack(board,rocketImage);
-      
-      
-
+      monsterAttack = new MonsterAttack(board, rocketImage);
+      powerUps = new PowerUp(powerUpOptions);
+      //LOOP ATAQUES
       loopMassiveAtack(monsterAttack);
 
       //first load
       if (firstLoad) {
             startGame(game);
             firstLoad = false;
-      // not first load - reset game parameters
+            // not first load - reset game parameters
       } else {
             ninja.health = 100;
             ninja.x = 30;
@@ -119,8 +121,24 @@ function startGame(game) {
                   }
             }
       }
-      monster.render(board,delta);
-      ninja.render(board,delta);
+      monster.render(board, delta);
+      ninja.render(board, delta);
+      powerUps.render(board, delta);
+      if ( 
+            (ninja.x + 50 >= powerUps.x) && 
+            (ninja.x + 110 < powerUps.x + 100) &&
+            (ninja.y + 200 < powerUps.y + 100) &&
+            (ninja.y + 400 > powerUps.y - 100) 
+      ) {
+            ninja.extraPower()
+            powerUps.restart();
+      //       console.log('equis '+powerUps.x+' / y: '+powerUps.y);
+      // console.log ('ninjaX: '+ninja.x+' / ninjaY: '+ninja.y);
+            
+      }
+      // console.log('equis '+powerUps.x+' / y: '+powerUps.y);
+      // console.log ('ninjaX: '+ninja.x+' / ninjaY: '+ninja.y);
+
       //lanzamos la secuencia del navegador
       window.requestAnimationFrame(function () {
             startGame(board, ninja, monster);
@@ -136,6 +154,7 @@ function loopMassiveAtack() {
       }, randomAttack - massiveAttackSpeed);
 };
 
+
 function changeLevel(level, victories, defeated) {
       console.log(defeated);
       console.log(victories);
@@ -144,7 +163,6 @@ function changeLevel(level, victories, defeated) {
       } else {
             if (victories < 3) {
                   $('.level-box[data-level="' + level + '"]').addClass('defeated disabled').next().removeClass('disabled');
-
             } else {
                   // 3 victorias - partida ganada
                   console.log('has guanyat foquer');
