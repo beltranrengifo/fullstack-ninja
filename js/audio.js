@@ -1,4 +1,9 @@
 var audioIntro = new Audio('audio/chimes_intro.mp3');
 var gong = new Audio('audio/gong.mp3');
 var sw = new Audio('audio/sw.mp3');
+var run = new Audio('audio/run.mp3');
 var theme = new Audio('audio/theme.mp3');
+var coin = new Audio('audio/coin.mp3');
+var coin2 = new Audio('audio/coin2.mp3');
+var jump = new Audio('audio/jump.mp3');
+var hit = new Audio('audio/hit.mp3');

@@ -36,4 +36,5 @@ PowerUp.prototype.random = function (min, max) {
 
 PowerUp.prototype.restart = function () {
       this.y = this.random(-1200, -3500);
+      this.x = this.random(40, 1200);
 }

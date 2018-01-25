@@ -22,6 +22,44 @@
                         font-size: .5em;
                   }
             }
+            .how-to-play {
+                  position: absolute;
+                  height: 40px;
+                  width: 40px;
+                  top: 20px;
+                  left: 20px;
+                  cursor: pointer;
+                  z-index: 9;
+                  i {
+                        font-size: 40px;
+                        color: #ffffff9e;
+                        display: inline-block;
+                  }
+                  &:hover {
+                        i {
+                              color: #443946;
+                        }
+                  }
+            }
+            .how-to-play-content {
+                  display: none;
+                  position: absolute;
+                  top: 20px;
+                  left: 20px;
+                  width: 320px;
+                  height: auto !important;
+                  text-align: left;
+                  background: #ffffff82;
+                  color: #120d16;
+                  padding: 0px 20px 0 50px;
+                  border-radius: 26px;
+                  z-index: 2;
+                  p {
+                        span {
+                              font-weight: 600;
+                        }
+                  }
+            }
             .level-box {
                   width: 100%;
                   position: relative;

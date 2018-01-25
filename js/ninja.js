@@ -106,7 +106,7 @@ Ninja.prototype.stop = function () {
 
 Ninja.prototype.attack = function () {
       sw.play();
-      sw.volume = .5;
+      sw.volume = .4;
       this.totalFrames = 24;
       if (this.direction === 1) {
             this.img.src = 'img/sprites/ninja-attack-1.png';
@@ -162,6 +162,7 @@ Ninja.prototype.checkDamage = function (monsterAttack) {
       if (this.health > 0) {
             if (this.canBeHurt) {
                   this.health -= 6;
+                  hit.play();
                   if (this.x > 5) {
                         this.x -= 20;
                   }

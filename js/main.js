@@ -6,6 +6,16 @@ $(document).ready(() => {
       setTimeout(function () {
             levelSelection();
       }, 5000);
+      //show instructions
+      $('.how-to-play').click(function () {
+            console.log('si');
+            $('.how-to-play-content').fadeToggle();
+      });
+      //mute audio
+      $('#audio-control').click(function () {
+            $('#audio-control i').toggleClass('fa-volume-off fa-volume-up');
+            return theme.paused ? theme.play() : theme.pause();
+      });
 });
 
 function firstLoad() {
@@ -24,8 +34,8 @@ function levelSelection(a) {
             this.currentTime = 0;
             this.play();
       }, false);
-      // theme.play();
-      theme.volume = 0.6;
+      theme.play();
+      theme.volume = 0.2;
       $('#first-load').fadeOut(500, function () {
             $('#level-selection').fadeIn(500);
       });

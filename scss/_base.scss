@@ -5,9 +5,9 @@ body {
 }
 
 h1 {
-	font-family: 'Molengo', Georgia, Times, serif;
-	font-size: 56px;
-	line-height: 80px;
+    font-family: 'Molengo', Georgia, Times, serif;
+    font-size: 56px;
+    line-height: 80px;
 }
 
 h2 {
@@ -18,10 +18,27 @@ main {
     width: 100vw;
     height: 100vh;
     background: #221b24;
+    #audio-control {
+        position: fixed;
+        height: 40px;
+        width: 40px;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+        z-index: 9;
+        i {
+            font-size: 34px;
+            color: #ffffff9e;
+            display: inline-block;
+        }
+        &:hover {
+            i {
+                color: #443946;
+            }
+        }
+    }
 }
 
 div {
     box-sizing: border-box;
 }
-
- 

@@ -7,6 +7,7 @@
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <title>Fullstack Ninja</title>
       <link href="https://fonts.googleapis.com/css?family=Lekton:400,700|Molengo" rel="stylesheet">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="stylesheet" href="css/main.css">
       <script src="js/jquery-3.2.1.min.js"></script>
       <script src="js/board.js"></script>
@@ -23,6 +24,9 @@
 
 <body>
       <main>
+            <div id="audio-control">
+                  <i class="fa fa-volume-up" aria-hidden="true"></i>
+            </div>
             <!-- NOTE: Comentado para desarrollo -->
             <div id="first-load" class="flex-container justify-content-center align-items-center">
                   <h1>
@@ -35,6 +39,17 @@
                         <h2>Defeat the Beast
                               <span>Try to stay alive!</span>
                         </h2>
+                        <div class="how-to-play">
+                              <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="how-to-play-content">
+                              <p> Use
+                                    <span>Arrow Left</span> and
+                                    <span>Arrow Right</span> for moving, use
+                                    <span>Arrow Up</span> for jumping. Press
+                                    <span>A</span> for Attack.
+                               </p>
+                        </div>
                         <div class="level-box column-wrapper" data-level="level1">
                               <!-- NOTE: enemigo vencido añadir clases defeated y disabled -->
                               <div class="villain column">
@@ -42,7 +57,8 @@
                               <div class="description column">
                                     <h2 class="doom">Da Doom</h2>
                                     <h3>Call To Adventure</h3>
-                                    <p>The ironhacker begins in a situation of normality from which some information is received that acts as a call to head off into the unknown.</p>
+                                    <p>The ironhacker begins in a situation of normality from which some information is received
+                                          that acts as a call to head off into the unknown.</p>
                               </div>
                         </div>
                         <div class="level-box column-wrapper disabled" data-level="level2">
@@ -51,7 +67,9 @@
                               <div class="description column">
                                     <h2 class="wakkend">Da Wakkend</h2>
                                     <h3>Approach To The Inmost Cave</h3>
-                                    <p>The central crisis of the Ironhack Adventure, where we must undergo "the ordeal", where we overcomes the main obstacle or enemy, undergoing "apotheosis" and gaining the reward: a treasure or "elixir".</p>
+                                    <p>The central crisis of the Ironhack Adventure, where we must undergo "the ordeal", where
+                                          we overcomes the main obstacle or enemy, undergoing "apotheosis" and gaining the
+                                          reward: a treasure or "elixir".</p>
                               </div>
                         </div>
                         <div class="level-box column-wrapper disabled" data-level="level3">
@@ -60,7 +78,10 @@
                               <div class="description column">
                                     <h2 class="frunth">Da Frunth</h2>
                                     <h3>Return With The Elixir</h3>
-                                    <p>The ironhacker traverses the threshold between the worlds, returning to the ordinary world with the elixir he gained, which he may now use for the benefit of his fellow man. The ironhacker himself is transformed by the adventure and gains wisdom and spiritual power over both worlds.</p>
+                                    <p>The ironhacker traverses the threshold between the worlds, returning to the ordinary
+                                          world with the elixir he gained, which he may now use for the benefit of his fellow
+                                          man. The ironhacker himself is transformed by the adventure and gains wisdom and
+                                          spiritual power over both worlds.</p>
                               </div>
                         </div>
                   </div>

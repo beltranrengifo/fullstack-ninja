@@ -93,6 +93,7 @@ function assignAssets(level) {
             ninja.img.src = 'img/sprites/ninja-idle.png';
             that.totalFrames = 24;
             ninja.extraPowerCount = 0;
+            $('.coin').css('background', 'url(img/coin-off.png)');
             powerUps.isAlive = true;
       }
 }
@@ -159,6 +160,7 @@ function startGame(game) {
       ) {
             ninja.extraPower()
             powerUps.restart();
+            coin2.play();
       }
       //lanzamos la secuencia del navegador
       window.requestAnimationFrame(function () {
@@ -202,12 +204,16 @@ $(document).keydown(function (e) {
       switch (e.keyCode) {
             case 37:
                   ninja.move(-1, monster);
+                  run.play();
                   break;
             case 39:
                   ninja.move(1, monster);
+                  run.play();
                   break;
             case 38:
                   ninja.jump();
+                  jump.play();
+                  jump.volume = .1;
                   break;
             case 65:
                   ninja.attack(monster);
@@ -223,6 +229,10 @@ $(document).keyup(function (e) {
             case 39:
             case 65:
                   ninja.stop();
+                  run.pause();
+                  run.currentTime = 0;
+                  jump.pause();
+                  jump.currentTime = 0;
                   break;
             default:
                   return;
