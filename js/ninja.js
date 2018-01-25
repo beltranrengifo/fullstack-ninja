@@ -28,6 +28,7 @@ function Ninja(monster) {
       this.extraDamage = [];
       this.victories = 0;
       this.won = false;
+      this.dead = false;
       this.defeated = false;
       this.canBeHurt = true;
 }
@@ -150,13 +151,6 @@ Ninja.prototype.checkDamage = function (monsterAttack) {
                   if (this.x > 5) {
                         this.x -= 20;
                   }
-                  this.img.src = 'img/sprites/ninja-hurt.png'
-                  that = this;
-                  setTimeout(function () {
-                        that.img.src = 'img/sprites/ninja-idle.png';
-                        that.canBeHurt = true;
-                  }, 1000);
-
             } else {
                   this.health = this.health;
             }
@@ -178,6 +172,7 @@ Ninja.prototype.win = function () {
 }
 
 Ninja.prototype.die = function () {
+      this.dead = true;
       this.img.src = 'img/sprites/ninja-dies.png';
       that = this;
       powerUps.isAlive = false;
@@ -216,13 +211,13 @@ Ninja.prototype.endLevel = function (action) {
 Ninja.prototype.extraPower = function () {
       console.log(this.extraPowerCount);
       console.log(this.health);
-      if (this.extraPowerCount < 5) {
+      if (this.extraPowerCount < 4) {
             this.extraPowerCount++;
-            $('.coin:nth-child('+this.extraPowerCount+')').css('background','url(img/coin-on.png)');
+            $('.coin:nth-child(' + this.extraPowerCount + ')').css('background', 'url(img/coin-on.png)');
       } else {
-            this.health += 10;
+            this.health += 30;
             this.extraPowerCount = 0;
-            $('.coin:nth-child('+this.extraPowerCount+')').css('background','url(img/coin-off.png)');
+            $('.coin').css('background', 'url(img/coin-off.png)');
             console.log('5 veces!');
             console.log(this.health);
       }

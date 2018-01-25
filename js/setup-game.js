@@ -93,15 +93,14 @@ function assignAssets(level) {
       } else {
             ninja.health = 100;
             ninja.x = 30;
+            ninja.dead = false;
             ninja.won = false;
             ninja.defeated = false;
             ninja.img.src = 'img/sprites/ninja-idle.png';
             that.totalFrames = 24;
             ninja.extraPowerCount = 0;
             powerUps.isAlive = true;
-
       }
-
 }
 
 
@@ -146,18 +145,21 @@ function startGame(game) {
             //rock avalanche
             createHorde(horde);
             horde.forEach(function (item, i) {
+                  console.log(ninja.won);
                   item.render(board);
                   if (item.y > 720) {
                         horde.splice(i, 1);
                   }
-                  if (
-                        (ninja.x <= item.x) &&
-                        (ninja.x + 150 >= item.x) &&
-                        (ninja.y + 200 < item.y + 45) &&
-                        (ninja.y + 300 > item.y)
-                  ) {
-                        horde.splice(i, 1);
-                        ninja.checkDamage();
+                  if (!ninja.dead) {
+                        if (
+                              (ninja.x <= item.x) &&
+                              (ninja.x + 150 >= item.x) &&
+                              (ninja.y + 200 < item.y + 45) &&
+                              (ninja.y + 300 > item.y)
+                        ) {
+                              horde.splice(i, 1);
+                              ninja.checkDamage();
+                        }
                   }
             });
       }

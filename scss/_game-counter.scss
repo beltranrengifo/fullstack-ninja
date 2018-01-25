@@ -3,6 +3,33 @@
       background: transparent;
       padding: 20px 20px 0;
       margin-bottom: 50px;
+      .game-logo,.column-wrapper {
+            width: 1600px;
+            max-width: 98%;
+            margin: 0 auto;
+      }
+      .game-logo {
+            margin-bottom: -30px;
+            h2 {
+                  color: white;
+                  margin-top: 0;
+                  .fullstack {
+                        font-family: 'Lekton', Helvetica, Arial, sans-serif;
+                        font-size: .8rem;
+                        font-weight: 100;
+                        letter-spacing: 5px;
+                  }
+                  .ninja {
+                        font-family: 'ninja_narutoregular';
+                        -webkit-text-stroke-width: .1px;
+                        -webkit-text-stroke-color: red;
+                        text-shadow: 0px 0px 120px #000;
+                        transform: rotate(-5deg);
+                        letter-spacing: 5px;
+                        margin-top: -2px;
+                  }
+            }
+      }
       .ninja-counters,
       .monster-counters {
             width: 50%;
