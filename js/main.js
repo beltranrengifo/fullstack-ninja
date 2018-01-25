@@ -9,13 +9,23 @@ $(document).ready(() => {
 });
 
 function firstLoad() {
+      audioIntro.play();
       $('.fullstack').addClass('visible');
       setTimeout(function () {
             $('.ninja').addClass('visible ninja-small');
       }, 2000);
+      setTimeout(function () {
+            gong.play();
+      }, 3100);
 }
 
 function levelSelection(a) {
+      theme.addEventListener('ended', function () {
+            this.currentTime = 0;
+            this.play();
+      }, false);
+      // theme.play();
+      theme.volume = 0.6;
       $('#first-load').fadeOut(500, function () {
             $('#level-selection').fadeIn(500);
       });
@@ -28,4 +38,3 @@ function levelSelection(a) {
             assignAssets(level);
       });
 };
-

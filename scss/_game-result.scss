@@ -58,3 +58,28 @@
             }
       }
 }
+
+body {
+      &.level2 {
+            #game-result-modal {
+                  .game-result-container {
+                        h3 {
+                              span {
+                                    color: #f3b406;
+                              }
+                        }
+                  }
+            }
+      }
+      &.level3 {
+            #game-result-modal {
+                  .game-result-container {
+                        h3 {
+                              span {
+                                    color: #f307b9;
+                              }
+                        }
+                  }
+            }
+      }
+}

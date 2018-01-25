@@ -105,6 +105,8 @@ Ninja.prototype.stop = function () {
 }
 
 Ninja.prototype.attack = function () {
+      sw.play();
+      sw.volume = .5;
       this.totalFrames = 24;
       if (this.direction === 1) {
             this.img.src = 'img/sprites/ninja-attack-1.png';
