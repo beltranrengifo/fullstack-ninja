@@ -2,18 +2,10 @@ $(document).ready(() => {
       /*=======================
       PANTALLA DE INICIO / SELECCIÓN DE NIVEL
       =======================*/
-      //NOTE: comentado para desarrollo
-     /*  firstLoad();
+      firstLoad();
       setTimeout(function () {
             levelSelection();
-      }, 5000); */
-      // CLOSE NOTE
-
-     
-
-      //NOTE: añadido SOLO para desarrollo
-      levelSelection();
-      // CLOSE NOTE      
+      }, 5000);
 });
 
 function firstLoad() {
@@ -35,6 +27,5 @@ function levelSelection(a) {
             $('body').removeClass().addClass(level);
             assignAssets(level);
       });
-      
 };
 

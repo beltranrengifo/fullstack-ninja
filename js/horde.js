@@ -3,7 +3,6 @@ function HordeItem() {
       this.imgArray = ['img/horde-stone-1.png', 'img/horde-stone-2.png', 'img/horde-stone-3.png', 'img/horde-stone-4.png'];
       this.img.src = this.imgArray[this.random(0, 4)];
       this.x = this.random(20, 1300);
-      // this.y = 200;
       this.y = this.random(-1400, -40);
       this.speedY = 500;
       this.isAlive = true;
@@ -11,7 +10,6 @@ function HordeItem() {
       this.frameHeight = 90;
       this.isAlive = true;
 }
-
 
 HordeItem.prototype.render = function (board) {
       if (this.isAlive) {

@@ -14,8 +14,6 @@ var powerUpOptions;
 var powerUps;
 var powerUpInterval;
 var horde = [];
-/* ojo delta para smooth movement (extraído del ejemplo de los cubos)
-https://codepen.io/boyander/pen/XVyEbv?editors=1010 */
 var now = Date.now();
 var delta = 0;
 var firstLoad = true;
@@ -24,8 +22,6 @@ ASSIGN ASSETS PARA
 LAS FX CONSTRUCTORAS
 =======================*/
 function assignAssets(level) {
-      /* el level es el data del elementos HTML sobre el que se clicka
-      en la pantalla de seleccionar nivel */
       switch (level) {
             case 'level1':
                   monsterOptions = {
@@ -74,14 +70,12 @@ function assignAssets(level) {
                   massiveAttackSpeed = 1500;
                   break;
       }
-
       var game = new Game(board, ninja, monster);
       board = new Board(levelBg);
       monster = new Monster(monsterOptions, board);
       monster.updateThumb();
       monsterAttack = new MonsterAttack(board, rocketImage);
       powerUps = new PowerUp(powerUpOptions);
-
       //LOOP ATAQUES
       loopMassiveAtack(monsterAttack);
       //first load
@@ -102,20 +96,15 @@ function assignAssets(level) {
             powerUps.isAlive = true;
       }
 }
-
 /*=======================
 START GAME!
 =======================*/
 function startGame(game) {
-      //se calcula el delta
       then = now;
       now = Date.now();
       delta = now - then;
-      /* limpiamos el canvas y repintamos 
-      (OJO que el render del ninja se re-lanza desde el render del board) */
       board.clean(board.ctx);
       board.render(board, ninja, delta, monster);
-
       monster.render(board, delta, ninja);
       monster.updateScore();
       ninja.render(board, delta);
@@ -161,8 +150,6 @@ function startGame(game) {
                   }
             });
       }
-
-
       //detect coins
       if (
             (ninja.x - 10 <= powerUps.x) &&
@@ -173,16 +160,11 @@ function startGame(game) {
             ninja.extraPower()
             powerUps.restart();
       }
-
-
-
       //lanzamos la secuencia del navegador
       window.requestAnimationFrame(function () {
             startGame(board, ninja, monster);
       });
 };
-
-
 function loopMassiveAtack() {
       randomAttack = Math.round(Math.random() * (3000 - 500)) + 500;
       setTimeout(function () {
@@ -190,14 +172,11 @@ function loopMassiveAtack() {
             loopMassiveAtack();
       }, randomAttack - massiveAttackSpeed);
 };
-
-//fill horde
 function createHorde(horde) {
       while (horde.length < 2) {
             horde.push(new HordeItem());
       }
 }
-
 function changeLevel(level, victories, defeated) {
       if (defeated) {
             levelSelection();
@@ -215,20 +194,15 @@ function changeLevel(level, victories, defeated) {
                   });
             }
       }
-      
-
 }
-
 /*=======================
 KEY EVENTS MOVE NINJA
 =======================*/
 $(document).keydown(function (e) {
       switch (e.keyCode) {
-            //izq
             case 37:
                   ninja.move(-1, monster);
                   break;
-                  //dere
             case 39:
                   ninja.move(1, monster);
                   break;
@@ -239,11 +213,9 @@ $(document).keydown(function (e) {
                   ninja.attack(monster);
                   break;
             default:
-                  // exit this handler for other keys
                   return;
       }
 });
-//ON KEYUP SE RESETEA LA SPEED
 $(document).keyup(function (e) {
       switch (e.keyCode) {
             case 37:
@@ -253,6 +225,6 @@ $(document).keyup(function (e) {
                   ninja.stop();
                   break;
             default:
-                  return; // exit this handler for other keys
+                  return;
       }
 });

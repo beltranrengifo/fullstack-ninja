@@ -45,7 +45,6 @@ Monster.prototype.attack = function (ninja) {
                         this.img.src = 'img/sprites/monster-frunth-attack-xs.png';
                         break;
             }
-
             setTimeout(function () {
                   switch (thatMonster.level) {
                         case 'level1':
@@ -58,10 +57,8 @@ Monster.prototype.attack = function (ninja) {
                               thatMonster.img.src = 'img/sprites/monster-frunth-idle-xs.png';
                               break;
                   }
-                  // thatMonster.img.src = 'img/sprites/monster-doom-idle-xs.png';
             }, 1000);
       }
-
 }
 
 Monster.prototype.updateScore = function () {

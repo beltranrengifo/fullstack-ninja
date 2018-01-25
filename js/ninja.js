@@ -41,10 +41,8 @@ Ninja.prototype.render = function (board, delta) {
       } else {
             this.y -= this.speedY / 1000 * delta;
       }
-
       board.ctx.drawImage(this.img, this.shift, 0, this.frameWidth, this.frameHeight, this.x, this.y, 295, 479);
       this.shift += (this.frameWidth);
-
       if (this.currentFrame == this.totalFrames) {
             this.shift = 0;
             this.currentFrame = 0;
@@ -73,16 +71,13 @@ Ninja.prototype.jump = function () {
       if (!this.jumping) {
             this.jumping = false;
             this.totalFrames = 1;
-            //resetea el current frame al 0, para los sprites de 1 sola img
             this.currentFrame = 0;
             if (this.direction === 1) {
                   this.img.src = 'img/sprites/ninja-jump.png';
             } else {
                   this.img.src = 'img/sprites/ninja-jump-reverse.png';
             }
-
             this.speedY = this.maxSpeedY;
-
             if (this.y > 285) {
                   this.y = 285;
             } else if (this.y < 285) {
@@ -92,7 +87,6 @@ Ninja.prototype.jump = function () {
             }
       }
 }
-
 
 Ninja.prototype.stop = function () {
       this.speedX = 0;
@@ -131,7 +125,6 @@ Ninja.prototype.attack = function () {
                                     monster.img.src = 'img/sprites/monster-frunth-die-xs-last.png';
                                     break;
                         }
-                        // monster.img.src = 'img/sprites/monster-doom-die-xs-last.png';
                         monster.currentFrame = 0;
                         monster.totalFrames = 1;
                         this.win();
@@ -150,7 +143,6 @@ Ninja.prototype.attack = function () {
                               monster.img.src = 'img/sprites/monster-frunth-idle-xs.png';
                               break;
                   }
-                  // monster.img.src = 'img/sprites/monster-doom-idle-xs.png';
                   monster.health -= 7;
                   monster.x += 10;
                   return;
@@ -230,7 +222,6 @@ Ninja.prototype.endLevel = function (action) {
       //esto para quitar las bullets es una chapuza
       monsterAttack.cancel();
 }
-
 Ninja.prototype.extraPower = function () {
       if (this.extraPowerCount < 4) {
             this.extraPowerCount++;
