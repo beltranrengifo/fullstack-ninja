@@ -116,19 +116,16 @@ Ninja.prototype.attack = function () {
             this.img.src = 'img/sprites/ninja-attack-1-rev.png';
       }
       if (this.detectMonsterContact(this.monster)) {
-            if (this.monster.health < 1 && this.won === false) {
+            if (this.monster.health < 1) {
                   this.monster.img.src = 'img/sprites/monster-doom-die-xs-last.png';
-                  // this.monster.img.src = 'img/sprites/monster-doom-die-xs.png';
-                  // setTimeout(function () {
-                  //       this.monster.currentFrame = 0;
-                  //       this.monster.totalFrames = 1;
-                  // }, 576);
+                  this.monster.currentFrame = 0;
+                  this.monster.totalFrames = 1;
                   this.won = true;
                   this.win();
                   return;
             } else if (this.monster.health > 1) {
                   if (this.monster.health > 30) {
-                        this.monster.img.src = 'img/sprites/monster-doom-hurt-xs.png';      
+                        this.monster.img.src = 'img/sprites/monster-doom-hurt-xs.png';
                         setTimeout(function () {
                               this.monster.img.src = 'img/sprites/monster-doom-idle-xs.png';
                         }, 1000);
@@ -159,7 +156,7 @@ Ninja.prototype.checkDamage = function (monsterAttack) {
                         that.img.src = 'img/sprites/ninja-idle.png';
                         that.canBeHurt = true;
                   }, 1000);
-                  
+
             } else {
                   this.health = this.health;
             }
@@ -170,7 +167,7 @@ Ninja.prototype.checkDamage = function (monsterAttack) {
 
 Ninja.prototype.updateScore = function () {
       var htmlElement = $('.ninja-health span');
-      htmlElement.css('width',this.health+'%');
+      htmlElement.css('width', this.health + '%');
 }
 
 Ninja.prototype.win = function () {
@@ -216,16 +213,18 @@ Ninja.prototype.endLevel = function (action) {
       monsterAttack.cancel();
 }
 
-Ninja.prototype.extraPower = function() {
+Ninja.prototype.extraPower = function () {
       console.log(this.extraPowerCount);
       console.log(this.health);
       if (this.extraPowerCount < 5) {
-            this.extraPowerCount ++;
+            this.extraPowerCount++;
+            $('.coin:nth-child('+this.extraPowerCount+')').css('background','url(img/coin-on.png)');
       } else {
             this.health += 10;
             this.extraPowerCount = 0;
+            $('.coin:nth-child('+this.extraPowerCount+')').css('background','url(img/coin-off.png)');
             console.log('5 veces!');
             console.log(this.health);
       }
-      
+
 }

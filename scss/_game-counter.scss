@@ -23,7 +23,7 @@
                   border-radius: 10px;
                   overflow: hidden;
                   margin: 20px 12px 0 8px;
-                  span {
+                  span.inner {
                         display: block;
                         height: 100%;
                         @include transition(all .3s linear);
@@ -31,8 +31,20 @@
             }
       }
       .ninja-counters {
-            span {
+            span.inner {
                   background: #9f1a2f;
+            }
+            .coins-wrapper {
+                  padding-left: 80px;
+                  padding-top: 55px;
+                  span.coin {
+                        background: url(../img/coin-off.png);
+                        background-size: contain!important;
+                        background-repeat: no-repeat!important;
+                        width: 25px;
+                        height: 26px;
+                        display: inline-block;
+                  }
             }
       }
 }

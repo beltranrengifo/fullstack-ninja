@@ -117,57 +117,64 @@ function startGame(game) {
       (OJO que el render del ninja se re-lanza desde el render del board) */
       board.clean(board.ctx);
       board.render(board, ninja, delta, monster);
-      if (massiveAttack) {
-            if (monsterAttack.x < 0) {
-                  massiveAttack = false;
-            } else {
-                  monsterAttack.render(board, delta);
-            }
-            if (
-                  (Math.floor(monsterAttack.x) < Math.floor((ninja.x + 150))) && 
-                  (Math.floor(monsterAttack.x) > Math.floor((ninja.x)))
-            ) {
-                  if (Math.floor((ninja.y + 270)) > monsterAttack.y) {
-                        ninja.checkDamage();
-                        monsterAttack.x = 1200;
-                        massiveAttack = false;
-                  }
-            }
-      }
-      monster.render(board, delta);
+
+      monster.render(board, delta, ninja);
       monster.updateScore();
       ninja.render(board, delta);
       ninja.updateScore();
-      powerUps.render(board, delta);
+      if (!ninja.won) {
+            //coins
+            powerUps.render(board, delta);
+            //fire balls
+            if (massiveAttack) {
+                  if (monsterAttack.x < 0) {
+                        massiveAttack = false;
+                  } else {
+                        monsterAttack.render(board, delta);
+                  }
+                  if (
+                        (Math.floor(monsterAttack.x) < Math.floor((ninja.x + 150))) &&
+                        (Math.floor(monsterAttack.x) > Math.floor((ninja.x)))
+                  ) {
+                        if (Math.floor((ninja.y + 270)) > monsterAttack.y) {
+                              ninja.checkDamage();
+                              monsterAttack.x = 1200;
+                              massiveAttack = false;
+                        }
+                  }
+            }
+            //rock avalanche
+            createHorde(horde);
+            horde.forEach(function (item, i) {
+                  item.render(board);
+                  if (item.y > 720) {
+                        horde.splice(i, 1);
+                  }
+                  if (
+                        (ninja.x <= item.x) &&
+                        (ninja.x + 150 >= item.x) &&
+                        (ninja.y + 200 < item.y + 45) &&
+                        (ninja.y + 300 > item.y)
+                  ) {
+                        horde.splice(i, 1);
+                        ninja.checkDamage();
+                  }
+            });
+      }
+
 
       //detect coins
       if (
-            (ninja.x - 10 <= powerUps.x) && 
-            (ninja.x + 150 >= powerUps.x + 70) && 
-            (ninja.y + 100 < powerUps.y + 70) && 
+            (ninja.x - 10 <= powerUps.x) &&
+            (ninja.x + 150 >= powerUps.x + 70) &&
+            (ninja.y + 100 < powerUps.y + 70) &&
             (ninja.y + 250 > powerUps.y)
       ) {
             ninja.extraPower()
             powerUps.restart();
       }
 
-      //rock avalanche
-      createHorde(horde);
-      horde.forEach(function (item, i) {
-            item.render(board);
-            if (item.y > 720) {
-                  horde.splice(i, 1);
-            }
-            if (
-                  (ninja.x <= item.x) &&
-                  (ninja.x + 150 >= item.x) &&
-                  (ninja.y + 200 < item.y + 45) &&
-                  (ninja.y + 300 > item.y)
-            ) {
-                  horde.splice(i, 1);
-                  ninja.checkDamage();
-            }
-      });
+
 
       //lanzamos la secuencia del navegador
       window.requestAnimationFrame(function () {
@@ -179,7 +186,7 @@ function startGame(game) {
 function loopMassiveAtack() {
       randomAttack = Math.round(Math.random() * (3000 - 500)) + 500;
       setTimeout(function () {
-            monster.attack()
+            monster.attack(ninja)
             loopMassiveAtack();
       }, randomAttack - massiveAttackSpeed);
 };

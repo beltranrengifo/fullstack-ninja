@@ -15,15 +15,12 @@ function PowerUp(powerUpOptions) {
 PowerUp.prototype.render = function (board, delta) {
       if (this.isAlive) {
             if (this.y > 720) {
-                  // this.y = this.random(-1200, -3500);
-                  this.y = this.random(10, 10);
-                  // this.x = this.random(40, 1200);
-                  this.x = this.random(10, 10);
+                  this.y = this.random(-1200, -3500);
+                  this.x = this.random(40, 1200);
             } else {
                   this.y += this.speed / 1000 * delta;
                   board.ctx.drawImage(this.img, this.shift, 0, this.frameWidth, this.frameHeight, this.x, this.y, this.frameWidth, this.frameHeight);
                   this.shift += (this.frameWidth);
-      
                   if (this.currentFrame == this.totalFrames) {
                         this.shift = 0;
                         this.currentFrame = 0;

@@ -1,4 +1,4 @@
-function Monster(monsterOptions, board) {
+function Monster(monsterOptions, board, ninja) {
       this.name = monsterOptions.name;
       this.health = 100;
       this.x = monsterOptions.pos.x;
@@ -27,23 +27,26 @@ Monster.prototype.render = function (board, delta) {
       this.currentFrame++;
 }
 
-Monster.prototype.attack = function() {
-      massiveAttack = true; 
-      if (monsterAttack.x < 0) {
-            monsterAttack.x = 1200;
-      }    
-      thatMonster = this;
-      this.img.src = 'img/sprites/monster-doom-attack-xs.png'; 
-      setTimeout(function(){
-            thatMonster.img.src = 'img/sprites/monster-doom-idle-xs.png';
-      },1000);
+Monster.prototype.attack = function (ninja) {
+      if (!ninja.won) {
+            massiveAttack = true;
+            if (monsterAttack.x < 0) {
+                  monsterAttack.x = 1200;
+            }
+            thatMonster = this;
+            this.img.src = 'img/sprites/monster-doom-attack-xs.png';
+            setTimeout(function () {
+                  thatMonster.img.src = 'img/sprites/monster-doom-idle-xs.png';
+            }, 1000);
+      }
+
 }
 
 Monster.prototype.updateScore = function () {
       var htmlElement = $('.monster-health span');
-      htmlElement.css('width',this.health+'%');
+      htmlElement.css('width', this.health + '%');
 }
 
-Monster.prototype.updateThumb = function(){
-      $('.monster-counters img').attr('src',this.thumb);
+Monster.prototype.updateThumb = function () {
+      $('.monster-counters img').attr('src', this.thumb);
 }
