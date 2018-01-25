@@ -3,6 +3,8 @@ function Ninja(monster) {
       this.img = new Image();
       this.img.src = 'img/sprites/ninja-idle.png';
       this.scale = 295 / 479;
+      //monster
+      this.monster = monster;
       //para los sprites
       this.shift = 0;
       this.frameWidth = 295;
@@ -20,7 +22,7 @@ function Ninja(monster) {
       this.maxSpeedY = 700;
       this.jumping = false;
       // vida
-      this.health = 120;
+      this.health = 100;
       this.extraPowerCount = 0;
       this.damage = 7;
       this.extraDamage = [];
@@ -106,41 +108,40 @@ Ninja.prototype.stop = function () {
       }
 }
 
-Ninja.prototype.attack = function (monster) {
+Ninja.prototype.attack = function () {
       this.totalFrames = 24;
       if (this.direction === 1) {
             this.img.src = 'img/sprites/ninja-attack-1.png';
       } else {
             this.img.src = 'img/sprites/ninja-attack-1-rev.png';
       }
-      if (this.detectMonsterContact(monster)) {
-            if (monster.health < 1 && this.won === false) {
-                  monster.img.src = 'img/sprites/monster-doom-die-xs.png';
-                  setTimeout(function () {
-                        monster.img.src = 'img/sprites/monster-doom-die-xs-last.png';
-                        console.log('muere mostro');
-                        monster.currentFrame = 0;
-                        monster.totalFrames = 1;
-                  }, 576);
+      if (this.detectMonsterContact(this.monster)) {
+            if (this.monster.health < 1 && this.won === false) {
+                  this.monster.img.src = 'img/sprites/monster-doom-die-xs-last.png';
+                  // this.monster.img.src = 'img/sprites/monster-doom-die-xs.png';
+                  // setTimeout(function () {
+                  //       this.monster.currentFrame = 0;
+                  //       this.monster.totalFrames = 1;
+                  // }, 576);
                   this.won = true;
                   this.win();
                   return;
-            } else if (monster.health > 1) {
-                  if (monster.health > 30) {
-                        monster.img.src = 'img/sprites/monster-doom-hurt-xs.png';      
+            } else if (this.monster.health > 1) {
+                  if (this.monster.health > 30) {
+                        this.monster.img.src = 'img/sprites/monster-doom-hurt-xs.png';      
                         setTimeout(function () {
-                              monster.img.src = 'img/sprites/monster-doom-idle-xs.png';
+                              this.monster.img.src = 'img/sprites/monster-doom-idle-xs.png';
                         }, 1000);
                   }
-                  monster.health -= 10;
-                  monster.x += 10;
+                  this.monster.health -= 7;
+                  this.monster.x += 10;
                   return;
             }
       }
 }
 
 Ninja.prototype.detectMonsterContact = function (monster) {
-      if (this.x + this.frameWidth >= monster.x) {
+      if (this.x + this.frameWidth >= this.monster.x) {
             return true;
       }
 }
@@ -148,8 +149,7 @@ Ninja.prototype.detectMonsterContact = function (monster) {
 Ninja.prototype.checkDamage = function (monsterAttack) {
       if (this.health > 0) {
             if (this.canBeHurt) {
-                  this.canBeHurt = false;
-                  this.health -= 10;
+                  this.health -= 6;
                   if (this.x > 5) {
                         this.x -= 20;
                   }
@@ -159,12 +159,18 @@ Ninja.prototype.checkDamage = function (monsterAttack) {
                         that.img.src = 'img/sprites/ninja-idle.png';
                         that.canBeHurt = true;
                   }, 1000);
+                  
             } else {
                   this.health = this.health;
             }
       } else {
             this.die();
       }
+}
+
+Ninja.prototype.updateScore = function () {
+      var htmlElement = $('.ninja-health span');
+      htmlElement.css('width',this.health+'%');
 }
 
 Ninja.prototype.win = function () {

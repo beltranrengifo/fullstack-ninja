@@ -1,7 +1,7 @@
 /*=======================
 GLOBALS
 =======================*/
-var ninja = new Ninja(monster);
+var ninja;
 var levelBg;
 var monster;
 var monsterAttack;
@@ -35,7 +35,8 @@ function assignAssets(level) {
                               x: 1250,
                               y: 350
                         },
-                        level: level
+                        level: level,
+                        thumb: 'img/doom-thumb.png'
                   }
                   levelBg = 'img/level1-bg.jpg';
                   rocketImage = 'img/monster-rocket-1.png';
@@ -48,7 +49,8 @@ function assignAssets(level) {
                               x: 1250,
                               y: 350
                         },
-                        level: level
+                        level: level,
+                        thumb: 'img/wakkend-thumb.png'
                   }
                   levelBg = 'img/level2-bg.jpg';
                   rocketImage = 'img/monster-rocket-2.png';
@@ -58,12 +60,13 @@ function assignAssets(level) {
             case 'level3':
                   monsterOptions = {
                         src: 'img/sprites/monster-doom-idle-xs.png',
-                        name: 'Da Wakkend',
+                        name: 'Da Frunth',
                         pos: {
                               x: 1250,
                               y: 360
                         },
-                        level: level
+                        level: level,
+                        thumb: 'img/frunth-thumb.png'
                   }
                   levelBg = 'img/level3-bg.jpg';
                   rocketImage = 'img/monster-rocket-3.png';
@@ -75,8 +78,11 @@ function assignAssets(level) {
       var game = new Game(board, ninja, monster);
       board = new Board(levelBg);
       monster = new Monster(monsterOptions, board);
+      monster.updateThumb();
+      ninja = new Ninja(monster);
       monsterAttack = new MonsterAttack(board, rocketImage);
       powerUps = new PowerUp(powerUpOptions);
+
       //LOOP ATAQUES
       loopMassiveAtack(monsterAttack);
       //first load
@@ -117,7 +123,10 @@ function startGame(game) {
             } else {
                   monsterAttack.render(board, delta);
             }
-            if ((Math.floor(monsterAttack.x) < Math.floor((ninja.x + 150))) && (Math.floor(monsterAttack.x) > Math.floor((ninja.x)))) {
+            if (
+                  (Math.floor(monsterAttack.x) < Math.floor((ninja.x + 150))) && 
+                  (Math.floor(monsterAttack.x) > Math.floor((ninja.x)))
+            ) {
                   if (Math.floor((ninja.y + 270)) > monsterAttack.y) {
                         ninja.checkDamage();
                         monsterAttack.x = 1200;
@@ -126,11 +135,18 @@ function startGame(game) {
             }
       }
       monster.render(board, delta);
+      monster.updateScore();
       ninja.render(board, delta);
+      ninja.updateScore();
       powerUps.render(board, delta);
 
       //detect coins
-      if ((ninja.x - 10 <= powerUps.x) && (ninja.x + 150 >= powerUps.x + 70) && (ninja.y + 100 < powerUps.y + 70) && (ninja.y + 250 > powerUps.y)) {
+      if (
+            (ninja.x - 10 <= powerUps.x) && 
+            (ninja.x + 150 >= powerUps.x + 70) && 
+            (ninja.y + 100 < powerUps.y + 70) && 
+            (ninja.y + 250 > powerUps.y)
+      ) {
             ninja.extraPower()
             powerUps.restart();
       }

@@ -14,11 +14,11 @@ function Monster(monsterOptions, board) {
       this.totalFrames = 24;
       this.currentFrame = 0;
       this.level = monsterOptions.level;
+      this.thumb = monsterOptions.thumb;
 }
 
 Monster.prototype.render = function (board, delta) {
       board.ctx.drawImage(this.img, this.shift, 0, this.frameWidth, this.frameHeight, this.x, this.y, this.frameWidth, this.frameHeight);
-      // board.ctx.drawImage(this.img, this.x, this.y, this.frameWidth, this.frameHeight);
       this.shift += (this.frameWidth);
       if (this.currentFrame == this.totalFrames) {
             this.shift = 0;
@@ -32,4 +32,18 @@ Monster.prototype.attack = function() {
       if (monsterAttack.x < 0) {
             monsterAttack.x = 1200;
       }    
+      thatMonster = this;
+      this.img.src = 'img/sprites/monster-doom-attack-xs.png'; 
+      setTimeout(function(){
+            thatMonster.img.src = 'img/sprites/monster-doom-idle-xs.png';
+      },1000);
+}
+
+Monster.prototype.updateScore = function () {
+      var htmlElement = $('.monster-health span');
+      htmlElement.css('width',this.health+'%');
+}
+
+Monster.prototype.updateThumb = function(){
+      $('.monster-counters img').attr('src',this.thumb);
 }
