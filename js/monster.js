@@ -34,9 +34,31 @@ Monster.prototype.attack = function (ninja) {
                   monsterAttack.x = 1200;
             }
             thatMonster = this;
-            this.img.src = 'img/sprites/monster-doom-attack-xs.png';
+            switch (this.level) {
+                  case 'level1':
+                        this.img.src = 'img/sprites/monster-doom-attack-xs.png';
+                        break;
+                  case 'level2':
+                        this.img.src = 'img/sprites/monster-wakkend-attack-xs.png';
+                        break;
+                  case 'level3':
+                        this.img.src = 'img/sprites/monster-frunth-attack-xs.png';
+                        break;
+            }
+
             setTimeout(function () {
-                  thatMonster.img.src = 'img/sprites/monster-doom-idle-xs.png';
+                  switch (thatMonster.level) {
+                        case 'level1':
+                              thatMonster.img.src = 'img/sprites/monster-doom-idle-xs.png';
+                              break;
+                        case 'level2':
+                              thatMonster.img.src = 'img/sprites/monster-wakkend-idle-xs.png';
+                              break;
+                        case 'level3':
+                              thatMonster.img.src = 'img/sprites/monster-frunth-idle-xs.png';
+                              break;
+                  }
+                  // thatMonster.img.src = 'img/sprites/monster-doom-idle-xs.png';
             }, 1000);
       }
 

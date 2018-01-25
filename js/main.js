@@ -23,7 +23,7 @@ function firstLoad() {
       }, 2000);
 }
 
-function levelSelection() {
+function levelSelection(a) {
       $('#first-load').fadeOut(500, function () {
             $('#level-selection').fadeIn(500);
       });

@@ -3,8 +3,6 @@ function Ninja(monster) {
       this.img = new Image();
       this.img.src = 'img/sprites/ninja-idle.png';
       this.scale = 295 / 479;
-      //monster
-      this.monster = monster;
       //para los sprites
       this.shift = 0;
       this.frameWidth = 295;
@@ -72,23 +70,26 @@ Ninja.prototype.move = function (direction) {
 }
 
 Ninja.prototype.jump = function () {
-      this.totalFrames = 1;
-      //resetea el current frame al 0, para los sprites de 1 sola img
-      this.currentFrame = 0;
-      if (this.direction === 1) {
-            this.img.src = 'img/sprites/ninja-jump.png';
-      } else {
-            this.img.src = 'img/sprites/ninja-jump-reverse.png';
-      }
+      if (!this.jumping) {
+            this.jumping = false;
+            this.totalFrames = 1;
+            //resetea el current frame al 0, para los sprites de 1 sola img
+            this.currentFrame = 0;
+            if (this.direction === 1) {
+                  this.img.src = 'img/sprites/ninja-jump.png';
+            } else {
+                  this.img.src = 'img/sprites/ninja-jump-reverse.png';
+            }
 
-      this.speedY = this.maxSpeedY;
+            this.speedY = this.maxSpeedY;
 
-      if (this.y > 285) {
-            this.y = 285;
-      } else if (this.y < 285) {
-            this.stop();
-      } else {
-            this.y -= this.speedY / 1000 * delta;
+            if (this.y > 285) {
+                  this.y = 285;
+            } else if (this.y < 285) {
+                  this.stop();
+            } else {
+                  this.y -= this.speedY / 1000 * delta;
+            }
       }
 }
 
@@ -116,30 +117,49 @@ Ninja.prototype.attack = function () {
       } else {
             this.img.src = 'img/sprites/ninja-attack-1-rev.png';
       }
-      if (this.detectMonsterContact(this.monster)) {
-            if (this.monster.health < 1) {
-                  this.monster.img.src = 'img/sprites/monster-doom-die-xs-last.png';
-                  this.monster.currentFrame = 0;
-                  this.monster.totalFrames = 1;
-                  this.won = true;
-                  this.win();
-                  return;
-            } else if (this.monster.health > 1) {
-                  if (this.monster.health > 30) {
-                        this.monster.img.src = 'img/sprites/monster-doom-hurt-xs.png';
-                        setTimeout(function () {
-                              this.monster.img.src = 'img/sprites/monster-doom-idle-xs.png';
-                        }, 1000);
+      if (this.detectMonsterContact(monster)) {
+            if (monster.health < 1) {
+                  if (!this.won) {
+                        switch (monster.level) {
+                              case 'level1':
+                                    monster.img.src = 'img/sprites/monster-doom-die-xs-last.png';
+                                    break;
+                              case 'level2':
+                                    monster.img.src = 'img/sprites/monster-wakkend-die-xs-last.png';
+                                    break;
+                              case 'level3':
+                                    monster.img.src = 'img/sprites/monster-frunth-die-xs-last.png';
+                                    break;
+                        }
+                        // monster.img.src = 'img/sprites/monster-doom-die-xs-last.png';
+                        monster.currentFrame = 0;
+                        monster.totalFrames = 1;
+                        this.win();
+                        this.won = true;
+                        return;
                   }
-                  this.monster.health -= 7;
-                  this.monster.x += 10;
+            } else if (monster.health > 1) {
+                  switch (monster.level) {
+                        case 'level1':
+                              monster.img.src = 'img/sprites/monster-doom-idle-xs.png';
+                              break;
+                        case 'level2':
+                              monster.img.src = 'img/sprites/monster-wakkend-idle-xs.png';
+                              break;
+                        case 'level3':
+                              monster.img.src = 'img/sprites/monster-frunth-idle-xs.png';
+                              break;
+                  }
+                  // monster.img.src = 'img/sprites/monster-doom-idle-xs.png';
+                  monster.health -= 7;
+                  monster.x += 10;
                   return;
             }
       }
 }
 
 Ninja.prototype.detectMonsterContact = function (monster) {
-      if (this.x + this.frameWidth >= this.monster.x) {
+      if (this.x + this.frameWidth >= monster.x) {
             return true;
       }
 }
@@ -194,6 +214,9 @@ Ninja.prototype.endLevel = function (action) {
             monsterAction = 'has defeated you';
             buttonText = 'Try again';
             this.defeated = true;
+      } else if (this.victories === 3) {
+            buttonText = 'Well done #Ironhacker';
+            actionText = 'the fullstack master';
       }
       that = this;
       $('#game-result-modal h2 span').text(actionText);
@@ -209,8 +232,6 @@ Ninja.prototype.endLevel = function (action) {
 }
 
 Ninja.prototype.extraPower = function () {
-      console.log(this.extraPowerCount);
-      console.log(this.health);
       if (this.extraPowerCount < 4) {
             this.extraPowerCount++;
             $('.coin:nth-child(' + this.extraPowerCount + ')').css('background', 'url(img/coin-on.png)');
@@ -218,8 +239,5 @@ Ninja.prototype.extraPower = function () {
             this.health += 30;
             this.extraPowerCount = 0;
             $('.coin').css('background', 'url(img/coin-off.png)');
-            console.log('5 veces!');
-            console.log(this.health);
       }
-
 }

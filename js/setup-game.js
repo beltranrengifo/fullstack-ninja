@@ -1,7 +1,7 @@
 /*=======================
 GLOBALS
 =======================*/
-var ninja;
+var ninja = new Ninja(monster);
 var levelBg;
 var monster;
 var monsterAttack;
@@ -43,7 +43,7 @@ function assignAssets(level) {
                   break;
             case 'level2':
                   monsterOptions = {
-                        src: 'img/sprites/monster-doom-idle-xs.png',
+                        src: 'img/sprites/monster-wakkend-idle-xs.png',
                         name: 'Da Wakkend',
                         pos: {
                               x: 1250,
@@ -79,7 +79,6 @@ function assignAssets(level) {
       board = new Board(levelBg);
       monster = new Monster(monsterOptions, board);
       monster.updateThumb();
-      ninja = new Ninja(monster);
       monsterAttack = new MonsterAttack(board, rocketImage);
       powerUps = new PowerUp(powerUpOptions);
 
@@ -89,8 +88,9 @@ function assignAssets(level) {
       if (firstLoad) {
             startGame(game);
             firstLoad = false;
-            // not first load - reset game parameters
+      // not first load - reset game parameters
       } else {
+            monster.health=100;
             ninja.health = 100;
             ninja.x = 30;
             ninja.dead = false;
@@ -102,7 +102,6 @@ function assignAssets(level) {
             powerUps.isAlive = true;
       }
 }
-
 
 /*=======================
 START GAME!
@@ -145,7 +144,6 @@ function startGame(game) {
             //rock avalanche
             createHorde(horde);
             horde.forEach(function (item, i) {
-                  console.log(ninja.won);
                   item.render(board);
                   if (item.y > 720) {
                         horde.splice(i, 1);
@@ -201,21 +199,23 @@ function createHorde(horde) {
 }
 
 function changeLevel(level, victories, defeated) {
-      console.log(defeated);
-      console.log(victories);
       if (defeated) {
             levelSelection();
       } else {
-            if (victories < 3) {
+            if (ninja.victories < 3) {
                   $('.level-box[data-level="' + level + '"]').addClass('defeated disabled').next().removeClass('disabled');
+                  $('#game-board').fadeOut(500, function () {
+                        levelSelection();
+                  });
             } else {
                   // 3 victorias - partida ganada
-                  console.log('has guanyat foquer');
+                  $('.level-box[data-level="level3"]').addClass('defeated disabled');
+                  $('#game-board').fadeOut(500, function () {
+                        levelSelection('game');
+                  });
             }
       }
-      $('#game-board').fadeOut(500, function () {
-            levelSelection();
-      });
+      
 
 }
 
