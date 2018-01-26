@@ -41,6 +41,10 @@ function Ninja(monster) {
                   img: 'img/sprites/ninja-dies.png',
                   frames: 24
             },
+            hurt: {
+                  img: 'img/sprites/ninja-hurt.png',
+                  frames: 24
+            },
       };
       this.sprites = {};
       var that = this;
@@ -89,10 +93,10 @@ Ninja.prototype.setSprite = function (name) {
 
 Ninja.prototype.update = function (delta) {
       this.speedY += 3;
-      if (this.x + this.speedX <= 20 || this.x + this.speedX >= 1100) {
+      if (this.x + this.speedX <= 20 || this.x + this.speedX >= 1300) {
             this.speedX = 0;
       }
-      if (this.y + this.speedY >= 265) {
+      if (this.y + this.speedY >= 285) {
             this.speedY = 0;
       }
       this.x += this.speedX;
@@ -116,7 +120,7 @@ Ninja.prototype.move = function (direction) {
 Ninja.prototype.jump = function () {
       (this.direction > 0) ? this.setSprite('jump'): this.setSprite('jumpR');
       if (this.y > 100) {
-            this.speedY += this.maxSpeedY;      
+            this.speedY += this.maxSpeedY;
       }
 }
 
@@ -152,13 +156,22 @@ Ninja.prototype.attack = function () {
             } else if (monster.health > 1) {
                   switch (monster.level) {
                         case 'level1':
-                              monster.img.src = 'img/sprites/monster-doom-idle-xs.png';
+                              monster.img.src = 'img/sprites/monster-doom-hurt-xs.png';
+                              setTimeout(function () {
+                                    monster.img.src = 'img/sprites/monster-doom-idle-xs.png';
+                              }, 1000);
                               break;
                         case 'level2':
-                              monster.img.src = 'img/sprites/monster-wakkend-idle-xs.png';
+                              monster.img.src = 'img/sprites/monster-wakkend-hurt-xs.png';
+                              setTimeout(function () {
+                                    monster.img.src = 'img/sprites/monster-wakkend-idle-xs.png';
+                              }, 1000);
                               break;
                         case 'level3':
-                              monster.img.src = 'img/sprites/monster-frunth-idle-xs.png';
+                              monster.img.src = 'img/sprites/monster-frunth-hurt-xs.png';
+                              setTimeout(function () {
+                                    monster.img.src = 'img/sprites/monster-frunth-idle-xs.png';
+                              }, 1000);
                               break;
                   }
                   monster.health -= 7;
@@ -177,6 +190,15 @@ Ninja.prototype.detectMonsterContact = function (monster) {
 Ninja.prototype.checkDamage = function (monsterAttack) {
       if (this.health > 0) {
             if (this.canBeHurt) {
+                  this.setSprite('hurt');
+                  var that = this;
+                  setTimeout(function () {
+                        if (that.direction > 0) {
+                              that.setSprite('idle')
+                        } else {
+                              that.setSprite('idleR')
+                        }
+                  }, 1000);
                   this.health -= 6;
                   hit.play();
                   if (this.x > 30) {

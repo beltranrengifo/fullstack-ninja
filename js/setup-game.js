@@ -90,7 +90,7 @@ function assignAssets(level) {
             ninja.dead = false;
             ninja.won = false;
             ninja.defeated = false;
-            ninja.img.src = 'img/sprites/ninja-idle.png';
+            ninja.setSprite('idle');
             that.totalFrames = 24;
             ninja.extraPowerCount = 0;
             $('.coin').css('background', 'url(img/coin-off.png)');
