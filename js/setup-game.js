@@ -108,7 +108,8 @@ function startGame(game) {
       board.render(board, ninja, delta, monster);
       monster.render(board, delta, ninja);
       monster.updateScore();
-      ninja.render(board, delta);
+      ninja.update(delta);
+      ninja.render(board);
       ninja.updateScore();
       if (!ninja.won) {
             //coins
@@ -203,11 +204,11 @@ KEY EVENTS MOVE NINJA
 $(document).keydown(function (e) {
       switch (e.keyCode) {
             case 37:
-                  ninja.move(-1, monster);
+                  ninja.move(-1);
                   run.play();
                   break;
             case 39:
-                  ninja.move(1, monster);
+                  ninja.move(1);
                   run.play();
                   break;
             case 38:

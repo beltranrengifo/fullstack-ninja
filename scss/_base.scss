@@ -19,6 +19,7 @@ main {
     height: 100vh;
     background: #221b24;
     #audio-control {
+        
         position: fixed;
         height: 40px;
         width: 40px;
@@ -27,6 +28,7 @@ main {
         cursor: pointer;
         z-index: 9;
         i {
+            @include transition (color .15s linear);
             font-size: 34px;
             color: #ffffff9e;
             display: inline-block;

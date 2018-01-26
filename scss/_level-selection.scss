@@ -13,7 +13,7 @@
             margin: 0 auto;
             height: 100%;
             &>h2 {
-                  padding: 40px 0;
+                  padding: 100px 0 50px;
                   margin: 0;
                   letter-spacing: 5px;
                   color: #72a79e3b;
@@ -34,6 +34,7 @@
                         font-size: 40px;
                         color: #ffffff9e;
                         display: inline-block;
+                        @include transition (color .15s linear);
                   }
                   &:hover {
                         i {

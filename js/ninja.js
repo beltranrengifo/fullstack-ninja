@@ -2,13 +2,39 @@ function Ninja(monster) {
       this.name = 'Fullstack Ninja';
       this.img = new Image();
       this.img.src = 'img/sprites/ninja-idle.png';
+
+      var sprites = {
+            idle: { img:'img/sprites/ninja-idle.png', frames:24 },
+            idleR:  { img:'img/sprites/ninja-idle-rev.png', frames:24 },
+            runL:  { img:'img/sprites/ninja-run-large-backwards.png', frames:24 },
+            runR:  { img:'img/sprites/ninja-run-large.png', frames:24 },
+            attackL: { img:'img/sprites/ninja-attack-1.png', frames:24 },
+            attackR: { img:'img/sprites/ninja-attack-1-rev.png', frames:24 },
+            jump: { img:'img/sprites/ninja-jump.png', frames: 1 },
+            jumpR: { img:'img/sprites/ninja-jump-reverse.png', frames:1 },
+            dieLast: { img:'img/sprites/ninja-dies-last.png', frames:1 },
+            dies: { img:'img/sprites/ninja-dies.png', frames:24 },
+      };
+
+      this.sprites = {};
+      var that = this;
+      Object.keys(sprites).forEach(function(key){
+            var img = new Image();
+            img.src = sprites[key].img;
+            that.sprites[key] = {
+                  img:img,
+                  frames: sprites[key].frames
+            }
+      });
+
+      this.actualFrame = 0;
+      this.setSprite('idle');
+
       this.scale = 295 / 479;
       //para los sprites
-      this.shift = 0;
+      
       this.frameWidth = 295;
       this.frameHeight = 479;
-      this.totalFrames = 24;
-      this.currentFrame = 0;
       this.direction = 1;
       this.playOnce = false;
       //postion
@@ -16,9 +42,10 @@ function Ninja(monster) {
       this.y = 285;
       this.speedX = 0;
       this.speedY = 0;
-      this.maxSpeedX = 600;
-      this.maxSpeedY = 700;
+      this.maxSpeedX = 12;
+      this.maxSpeedY = -60;
       this.jumping = false;
+
       // vida
       this.health = 100;
       this.extraPowerCount = 0;
@@ -31,88 +58,72 @@ function Ninja(monster) {
       this.canBeHurt = true;
 }
 
-Ninja.prototype.render = function (board, delta) {
-      this.x += this.speedX / 1000 * delta;
-      //comprobamos que el ninja no se vaya del canvas en el eje Y
-      if (this.y > 285) {
-            this.y = 286;
-      } else if (this.y <= 0) {
-            this.y = 1;
-      } else {
-            this.y -= this.speedY / 1000 * delta;
+Ninja.prototype.setSprite = function(name){
+      console.log("setting sprite " + name);
+      if(this.sprites[name].frames != 24){
+            this.actualFrame = 0;
       }
-      board.ctx.drawImage(this.img, this.shift, 0, this.frameWidth, this.frameHeight, this.x, this.y, 295, 479);
-      this.shift += (this.frameWidth);
-      if (this.currentFrame == this.totalFrames) {
-            this.shift = 0;
-            this.currentFrame = 0;
+      this.currentSpriteFrames = this.sprites[name].frames;
+      this.currentSprite = this.sprites[name].img;
+}
+
+Ninja.prototype.update = function (delta) {
+      this.speedY += 5;
+      if(this.x + this.speedX <= 20 || this.x+this.speedX >= 1100){
+            this.speedX = 0;
       }
-      this.currentFrame++;
+      if(this.y + this.speedY  >= 265){
+            this.speedY = 0;
+      }
+      this.x += this.speedX;
+      this.y += this.speedY;
+}
+
+
+Ninja.prototype.render = function (board) {
+      this.actualFrame = (this.actualFrame + 1 ) % this.currentSpriteFrames;
+      board.ctx.font = "30px Arial";
+      board.ctx.fillStyle = "white";
+      var speeds = "SY: " + this.speedY;
+      board.ctx.fillText(speeds,this.x,this.y);
+      board.ctx.drawImage(this.currentSprite, this.actualFrame*this.frameWidth, 0, this.frameWidth, this.frameHeight, this.x, this.y, 295, 479);
 }
 
 Ninja.prototype.move = function (direction) {
       this.totalFrames = 24;
       this.direction = direction;
-      if (this.x < 20) {
-            this.x = 20;
-      } else if (this.x > 1100) {
-            this.x = 1090;
-      } else if (this.y > 284) {
-            if (this.direction === -1) {
-                  this.img.src = 'img/sprites/ninja-run-large-backwards.png';
-            } else {
-                  this.img.src = 'img/sprites/ninja-run-large.png';
-            }
-            this.speedX = this.maxSpeedX * this.direction;
-      }
+      (this.direction > 0) ? this.setSprite('runR') : this.setSprite('runL');     
+      // move the ninja
+      this.speedX = this.maxSpeedX * this.direction;
 }
 
 Ninja.prototype.jump = function () {
-      if (!this.jumping) {
-            this.jumping = false;
-            this.totalFrames = 1;
-            this.currentFrame = 0;
-            if (this.direction === 1) {
-                  this.img.src = 'img/sprites/ninja-jump.png';
-            } else {
-                  this.img.src = 'img/sprites/ninja-jump-reverse.png';
-            }
-            this.speedY = this.maxSpeedY;
-            if (this.y > 285) {
-                  this.y = 285;
-            } else if (this.y < 285) {
-                  this.stop();
-            } else {
-                  this.y -= this.speedY / 1000 * delta;
-            }
-      }
+      // Check limits
+      (this.direction > 0) ? this.setSprite('jump') : this.setSprite('jumpR');
+      this.speedY += this.maxSpeedY;
+      //debugger;
 }
 
 Ninja.prototype.stop = function () {
       this.speedX = 0;
-      if (this.y < 285) {
-            // velocidad negativa para bajar al ninja al suelo
-            this.speedY = -650;
-      } else {
-            this.speedY = 0;
-      }
-      this.totalFrames = 24;
-      if (this.direction === 1) {
-            this.img.src = 'img/sprites/ninja-idle.png';
-      } else {
-            this.img.src = 'img/sprites/ninja-idle-rev.png';
-      }
+      (this.direction > 0) ? this.setSprite('idle') : this.setSprite('idleR'); 
+            // this.speedX = 0;
+      // if (this.y < 285) {
+      //       // velocidad negativa para bajar al ninja al suelo
+      //       this.speedY = -650;
+      // } else {
+      //       this.speedY = 0;
+      // }
+
+      // (this.direction > 0) ? this.setSprite('idle') : this.setSprite('idleR');     
+
 }
 
 Ninja.prototype.attack = function () {
       sw.play();
       sw.volume = .4;
-      this.totalFrames = 24;
-      if (this.direction === 1) {
-            this.img.src = 'img/sprites/ninja-attack-1.png';
-      } else {
-            this.img.src = 'img/sprites/ninja-attack-1-rev.png';
-      }
+      (this.direction > 0) ? this.setSprite('attackL') : this.setSprite('attackR');     
+
       if (this.detectMonsterContact(monster)) {
             if (monster.health < 1) {
                   if (!this.won) {
@@ -188,14 +199,12 @@ Ninja.prototype.win = function () {
 
 Ninja.prototype.die = function () {
       this.dead = true;
-      this.img.src = 'img/sprites/ninja-dies.png';
-      that = this;
+      this.setSprite('dies');
+      var that = this;
       powerUps.isAlive = false;
       HordeItem.isAlive = false;
       setTimeout(function () {
-            that.img.src = 'img/sprites/ninja-dies-last.png';
-            that.currentFrame = 0;
-            that.totalFrames = 1;
+            that.setSprite('dieLast');
       }, 500)
       this.endLevel('die');
 }

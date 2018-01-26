@@ -2,10 +2,10 @@ $(document).ready(() => {
       /*=======================
       PANTALLA DE INICIO / SELECCIÓN DE NIVEL
       =======================*/
-      firstLoad();
+      /* firstLoad();
       setTimeout(function () {
             levelSelection();
-      }, 5000);
+      }, 5000); */
       //show instructions
       $('.how-to-play').click(function () {
             console.log('si');
@@ -16,6 +16,7 @@ $(document).ready(() => {
             $('#audio-control i').toggleClass('fa-volume-off fa-volume-up');
             return theme.paused ? theme.play() : theme.pause();
       });
+      levelSelection();
 });
 
 function firstLoad() {
