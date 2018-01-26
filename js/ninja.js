@@ -1,38 +1,60 @@
 function Ninja(monster) {
       this.name = 'Fullstack Ninja';
-      this.img = new Image();
-      this.img.src = 'img/sprites/ninja-idle.png';
-
       var sprites = {
-            idle: { img:'img/sprites/ninja-idle.png', frames:24 },
-            idleR:  { img:'img/sprites/ninja-idle-rev.png', frames:24 },
-            runL:  { img:'img/sprites/ninja-run-large-backwards.png', frames:24 },
-            runR:  { img:'img/sprites/ninja-run-large.png', frames:24 },
-            attackL: { img:'img/sprites/ninja-attack-1.png', frames:24 },
-            attackR: { img:'img/sprites/ninja-attack-1-rev.png', frames:24 },
-            jump: { img:'img/sprites/ninja-jump.png', frames: 1 },
-            jumpR: { img:'img/sprites/ninja-jump-reverse.png', frames:1 },
-            dieLast: { img:'img/sprites/ninja-dies-last.png', frames:1 },
-            dies: { img:'img/sprites/ninja-dies.png', frames:24 },
+            idle: {
+                  img: 'img/sprites/ninja-idle.png',
+                  frames: 24
+            },
+            idleR: {
+                  img: 'img/sprites/ninja-idle-rev.png',
+                  frames: 24
+            },
+            runL: {
+                  img: 'img/sprites/ninja-run-large-backwards.png',
+                  frames: 24
+            },
+            runR: {
+                  img: 'img/sprites/ninja-run-large.png',
+                  frames: 24
+            },
+            attackL: {
+                  img: 'img/sprites/ninja-attack-1.png',
+                  frames: 24
+            },
+            attackR: {
+                  img: 'img/sprites/ninja-attack-1-rev.png',
+                  frames: 24
+            },
+            jump: {
+                  img: 'img/sprites/ninja-jump.png',
+                  frames: 1
+            },
+            jumpR: {
+                  img: 'img/sprites/ninja-jump-reverse.png',
+                  frames: 1
+            },
+            dieLast: {
+                  img: 'img/sprites/ninja-dies-last.png',
+                  frames: 1
+            },
+            dies: {
+                  img: 'img/sprites/ninja-dies.png',
+                  frames: 24
+            },
       };
-
       this.sprites = {};
       var that = this;
-      Object.keys(sprites).forEach(function(key){
+      Object.keys(sprites).forEach(function (key) {
             var img = new Image();
             img.src = sprites[key].img;
             that.sprites[key] = {
-                  img:img,
+                  img: img,
                   frames: sprites[key].frames
             }
       });
-
       this.actualFrame = 0;
       this.setSprite('idle');
-
       this.scale = 295 / 479;
-      //para los sprites
-      
       this.frameWidth = 295;
       this.frameHeight = 479;
       this.direction = 1;
@@ -43,9 +65,8 @@ function Ninja(monster) {
       this.speedX = 0;
       this.speedY = 0;
       this.maxSpeedX = 12;
-      this.maxSpeedY = -60;
+      this.maxSpeedY = -43;
       this.jumping = false;
-
       // vida
       this.health = 100;
       this.extraPowerCount = 0;
@@ -58,9 +79,8 @@ function Ninja(monster) {
       this.canBeHurt = true;
 }
 
-Ninja.prototype.setSprite = function(name){
-      console.log("setting sprite " + name);
-      if(this.sprites[name].frames != 24){
+Ninja.prototype.setSprite = function (name) {
+      if (this.sprites[name].frames != 24) {
             this.actualFrame = 0;
       }
       this.currentSpriteFrames = this.sprites[name].frames;
@@ -68,11 +88,11 @@ Ninja.prototype.setSprite = function(name){
 }
 
 Ninja.prototype.update = function (delta) {
-      this.speedY += 5;
-      if(this.x + this.speedX <= 20 || this.x+this.speedX >= 1100){
+      this.speedY += 3;
+      if (this.x + this.speedX <= 20 || this.x + this.speedX >= 1100) {
             this.speedX = 0;
       }
-      if(this.y + this.speedY  >= 265){
+      if (this.y + this.speedY >= 265) {
             this.speedY = 0;
       }
       this.x += this.speedX;
@@ -81,49 +101,34 @@ Ninja.prototype.update = function (delta) {
 
 
 Ninja.prototype.render = function (board) {
-      this.actualFrame = (this.actualFrame + 1 ) % this.currentSpriteFrames;
-      board.ctx.font = "30px Arial";
-      board.ctx.fillStyle = "white";
-      var speeds = "SY: " + this.speedY;
-      board.ctx.fillText(speeds,this.x,this.y);
-      board.ctx.drawImage(this.currentSprite, this.actualFrame*this.frameWidth, 0, this.frameWidth, this.frameHeight, this.x, this.y, 295, 479);
+      this.actualFrame = (this.actualFrame + 1) % this.currentSpriteFrames;
+      board.ctx.drawImage(this.currentSprite, this.actualFrame * this.frameWidth, 0, this.frameWidth, this.frameHeight, this.x, this.y, 295, 479);
 }
 
 Ninja.prototype.move = function (direction) {
       this.totalFrames = 24;
       this.direction = direction;
-      (this.direction > 0) ? this.setSprite('runR') : this.setSprite('runL');     
+      (this.direction > 0) ? this.setSprite('runR'): this.setSprite('runL');
       // move the ninja
       this.speedX = this.maxSpeedX * this.direction;
 }
 
 Ninja.prototype.jump = function () {
-      // Check limits
-      (this.direction > 0) ? this.setSprite('jump') : this.setSprite('jumpR');
-      this.speedY += this.maxSpeedY;
-      //debugger;
+      (this.direction > 0) ? this.setSprite('jump'): this.setSprite('jumpR');
+      if (this.y > 100) {
+            this.speedY += this.maxSpeedY;      
+      }
 }
 
 Ninja.prototype.stop = function () {
       this.speedX = 0;
-      (this.direction > 0) ? this.setSprite('idle') : this.setSprite('idleR'); 
-            // this.speedX = 0;
-      // if (this.y < 285) {
-      //       // velocidad negativa para bajar al ninja al suelo
-      //       this.speedY = -650;
-      // } else {
-      //       this.speedY = 0;
-      // }
-
-      // (this.direction > 0) ? this.setSprite('idle') : this.setSprite('idleR');     
-
+      (this.direction > 0) ? this.setSprite('idle'): this.setSprite('idleR');
 }
 
 Ninja.prototype.attack = function () {
       sw.play();
       sw.volume = .4;
-      (this.direction > 0) ? this.setSprite('attackL') : this.setSprite('attackR');     
-
+      (this.direction > 0) ? this.setSprite('attackL'): this.setSprite('attackR');
       if (this.detectMonsterContact(monster)) {
             if (monster.health < 1) {
                   if (!this.won) {
@@ -174,7 +179,7 @@ Ninja.prototype.checkDamage = function (monsterAttack) {
             if (this.canBeHurt) {
                   this.health -= 6;
                   hit.play();
-                  if (this.x > 5) {
+                  if (this.x > 30) {
                         this.x -= 20;
                   }
             } else {
